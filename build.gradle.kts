@@ -12,6 +12,9 @@ repositories {
 }
 
 dependencies {
+    implementation("app.cash.barber:barber:0.3.3")
+    implementation("com.github.spullara.mustache.java:compiler:0.9.10")
+
     testImplementation(kotlin("test"))
 }
 
