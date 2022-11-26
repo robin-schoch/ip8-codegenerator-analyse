@@ -40,7 +40,7 @@ class DSLParser(path: String) {
                 .map { StateWithTransition(it, transitionToTarget[it.id] ?: listOf()) }
         }
 
-        dsl.stateMachines.map { StateMachineEnriched(it, stateMap[it]!!, eventMap[it]!!) }.also { println(it) }
+        dsl.stateMachines.map { StateMachineEnriched(it, stateMap[it]!!, eventMap[it]!!) }
     }
 
 }
