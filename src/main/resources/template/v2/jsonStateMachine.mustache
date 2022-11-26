@@ -1,0 +1,69 @@
+using System;
+using Microsoft.Extensions.Logging;
+using Swissframe.Util.StateEventEditor.Common.Builder;
+
+namespace Swissframe.Util.StateEventEditor.Common.Test
+{
+    public class {{machine.name}}
+    {
+    {{#states}}
+        private const string {{state.cleanName}} = "{{state.id}}";
+    {{/states}}
+
+        private readonly IRegistry _registry;
+        private readonly ILogger _logger;
+
+        private string _currentState = {{initialState.cleanName}};
+
+        public PressostatControlStateMachineStageOne(IRegistry registry, ILogger logger)
+        {
+            _registry = registry;
+            _logger = logger;
+        }
+
+        public void UpdateState()
+        {
+            var nextState = _currentState switch
+            {
+            {{#states}}
+                {{state.cleanName}} => {{state.cleanName}}State(),
+            {{/states}}
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            if (nextState != _currentState)
+            {
+                _logger.LogInformation("perform transition from {source} to {target}", _currentState, nextState);
+            }
+
+            _currentState = nextState;
+        }
+    {{#states}}
+        private string {{state.cleanName}}State()
+        {
+        {{#state.invocations}}
+            _registry.GetInvocation("{{.}}", _logger)();
+        {{/state.invocations}}
+
+        {{#transitions}}
+            if ({{event}}())
+            {
+            {{#invocations}}
+                _registry.GetInvocation("{{.}}", _logger)();
+            {{/invocations}}
+
+                return {{target}};
+            }
+        {{/transitions}}
+        }
+
+    {{/states}}
+    {{#events}}
+        private bool {{name}}()
+        {
+            return _registry.GetCheck("{{event.check}}", _logger)();
+        }
+
+    {{/events}}
+    }
+}
