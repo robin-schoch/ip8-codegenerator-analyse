@@ -1,7 +1,10 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+val kotlin_version: String by project
+
 plugins {
-    kotlin("jvm") version "1.7.10"
+    kotlin("jvm") version "1.7.20"
+    kotlin("plugin.serialization") version "1.7.20"
 }
 
 group = "ch.fhnw.imvs"
@@ -11,10 +14,12 @@ repositories {
     mavenCentral()
 }
 
+
 dependencies {
     implementation("app.cash.barber:barber:0.3.3")
     implementation("com.github.spullara.mustache.java:compiler:0.9.10")
-
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
     testImplementation(kotlin("test"))
 }
 
@@ -24,4 +29,6 @@ tasks.test {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.languageVersion = "1.8"
+    kotlinOptions.freeCompilerArgs = listOf("-Xcontext-receivers")
 }

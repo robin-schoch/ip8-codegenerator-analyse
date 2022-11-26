@@ -4,8 +4,12 @@ import com.github.mustachejava.DefaultMustacheFactory
 import com.github.mustachejava.MustacheFactory
 import java.io.StringWriter
 
+class InnerTodo {
+    val inner = "inner"
+}
 class Todo {
     val sender: String = "wahtever"
+    val blub: InnerTodo = InnerTodo()
 }
 
 fun main() {
