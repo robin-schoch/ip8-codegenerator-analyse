@@ -37,6 +37,8 @@ sealed class Property {
         }
     }
 
+    open fun cleanName() = "${source.formattedName}_$name"
+
     open fun constantStatement(): String {
         throw UnsupportedOperationException("property cannot be used as a constant")
     }
@@ -46,7 +48,7 @@ sealed class Property {
     }
 
     open fun variableStatement(): String {
-        throw UnsupportedOperationException("property cannot be used as a variable")
+        throw UnsupportedOperationException("property cannot be used as a variable ${this.javaClass.simpleName}")
     }
 
     open fun timerStatement(): String {
@@ -55,6 +57,10 @@ sealed class Property {
 
     open fun configStatement(): String {
         throw UnsupportedOperationException("property cannot be used as a config")
+    }
+
+    open fun use(): String {
+        return "${source.formattedName}_$name"
     }
 }
 
@@ -71,7 +77,11 @@ class UIntProperty(
 ) : Property() {
 
     override fun variableStatement(): String {
-        return "public uint ${source.formattedName}_$name { get; set; }"
+        return "public uint ${cleanName()} { get; set; }"
+    }
+
+    override fun use(): String {
+        return "_registry.${source.formattedName}_$name"
     }
 }
 
@@ -85,7 +95,15 @@ class IntProperty(
     override val type: String,
     override val value: Int? = null,
     override val unit: String? = null,
-) : Property()
+) : Property() {
+    override fun variableStatement(): String {
+        return "public int ${cleanName()} { get; set; }"
+    }
+
+    override fun use(): String {
+        return "_registry.${source.formattedName}_$name"
+    }
+}
 
 @Serializable
 @SerialName("79e69aae-3db9-4410-b5df-4dd7eeb1271c")
@@ -183,7 +201,7 @@ class TimerProperty(
 }
 
 @Serializable(with = HeapPumpSerializer::class)
-enum class HeapPump() {
+enum class HeapPump {
     NONE,
     LEVEL_2,
     LEVEL_3,
@@ -203,5 +221,12 @@ class HeapPumpNowProperty(
 ) : Property() {
     override fun constantStatement(): String {
         return ""
+    }
+    override fun variableStatement(): String {
+        return "public HeapPump ${cleanName()} { get; set; }"
+    }
+
+    override fun use(): String {
+        return "_registry.${source.formattedName}_$name"
     }
 }

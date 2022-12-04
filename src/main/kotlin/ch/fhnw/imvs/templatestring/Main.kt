@@ -1,6 +1,7 @@
 package ch.fhnw.imvs.templatestring
 
 import ch.fhnw.imvs.semdsl.DSLParser
+import ch.fhnw.imvs.semdsl.stage2.Context
 import com.github.mustachejava.DefaultMustacheFactory
 import com.github.mustachejava.MustacheFactory
 import java.io.File
@@ -19,6 +20,9 @@ fun main() {
         File("$output/${data.machine.name}JsonMachine.cs").bufferedWriter().use { m.execute(it, data) }
     }
 
-    val m2 = mf.compile("template/v2/registry.mustache")
-    File("$outputDir/registry.cs").bufferedWriter().use { m2.execute(it, parser.registry) }
+    //  val m2 = mf.compile("template/v2/registry.mustache")
+    //  File("$outputDir/registry.cs").bufferedWriter().use { m2.execute(it, parser.registry) }
+
+    Context.registerProperties(parser.properties)
+    Context.propertyContext.forEach { (_, u) -> println(u) }
 }
