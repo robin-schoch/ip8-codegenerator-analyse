@@ -1,7 +1,8 @@
 package ch.fhnw.imvs.semdsl
 
 
-import json.dsl.*
+import ch.fhnw.imvs.semdsl.dsl.*
+
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
@@ -13,6 +14,23 @@ class DSLParser(path: String) {
     @OptIn(ExperimentalSerializationApi::class)
     private val dsl: JSONDSL by lazy {
         with(javaClass.classLoader.getResourceAsStream(path)) { json.decodeFromStream(this!!) }
+    }
+
+    private val typedProperties: List<Property> by lazy {
+        listOf()
+    }
+    private val constantMap: Map<PropertyId, Property> by lazy {
+        typedProperties
+            .filter { it.source == PropertySource.CONSTANT }
+            .associateBy { it.id }
+    }
+
+    private val constants: List<Property> by lazy {
+        constantMap.values.toList()
+    }
+
+    val registry: RegistryProperties by lazy {
+        RegistryProperties(constants)
     }
 
     val stateMachines: List<StateMachineEnriched> by lazy {
@@ -44,6 +62,10 @@ class DSLParser(path: String) {
     }
 
 }
+
+data class RegistryProperties(
+    val constants: List<Property>
+)
 
 data class StateMachineEnriched(
     val machine: StateMachine,

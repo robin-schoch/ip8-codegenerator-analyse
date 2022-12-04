@@ -18,4 +18,7 @@ fun main() {
         File(output).mkdir()
         File("$output/${data.machine.name}JsonMachine.cs").bufferedWriter().use { m.execute(it, data) }
     }
+
+    val m2 = mf.compile("template/v2/registry.mustache")
+    File("$outputDir/registry.cs").bufferedWriter().use { m2.execute(it, parser.registry) }
 }

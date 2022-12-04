@@ -1,4 +1,4 @@
-package json.dsl
+package ch.fhnw.imvs.semdsl.dsl
 
 import kotlinx.serialization.Serializable
 
@@ -18,18 +18,6 @@ data class JSONDSL(
     val transitions: List<Transition>,
     val stateMachines: List<StateMachine>,
     val types: List<Type>,
-)
-
-typealias ActionId = String
-
-@Serializable
-data class Action(
-    val id: ActionId,
-    val name: String,
-    val description: String,
-    val hardcoded: Boolean,
-    val parameters: List<ParameterId>,
-    val constraints: List<List<String>>
 )
 
 typealias ParameterId = String
@@ -73,33 +61,12 @@ data class Conjunction(
     val terms: List<String>
 )
 
-typealias PropertyId = String
-
-@Serializable
-data class Property(
-    val id: PropertyId,
-    val name: String,
-    val hardcoded: Boolean,
-    val source: String,
-    val type: String,
-    val unit: String? = null,
-    // val value: String? = null
-)
-
 @Serializable
 data class ParameterWithProperty(
     val parameter: ParameterId,
     val property: PropertyId
 )
-typealias InvocationId = String
 
-@Serializable
-data class Invocation(
-    val id: InvocationId,
-    val parameters: List<ParameterWithProperty>,
-    val action: ActionId,
-    val name: String
-)
 
 typealias EventId = String
 

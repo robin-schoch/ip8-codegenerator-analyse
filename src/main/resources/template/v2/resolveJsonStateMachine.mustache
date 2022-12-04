@@ -1,0 +1,39 @@
+using System;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Swissframe.Thermos.Common.Contract;
+using Swissframe.Thermos.Control.Contract.HeatPump;
+using Swissframe.Thermos.Hardware.Contract;
+
+namespace Swissframe.Util.StateEventEditor.Common.Test
+{
+
+    public class {{machine.name}}
+    {
+    {{#states}}
+        private const string {{state.cleanName}} = nameOf{{state.cleanName}});
+    {{/states}}
+
+        private readonly IServiceProvider _serviceProvider;
+        private readonly Registry _registry;
+        private readonly ILogger _logger;
+
+        private string _currentState = {{initialState.cleanName}};
+
+        public {{machine.name}}(IServiceProvider serviceProvider, Registry registry, ILogger logger)
+        {
+            _serviceProvider = serviceProvider;
+            _registry = registry;
+            _logger = logger;
+        }
+    }
+
+
+    class {{machine.name}}Registry
+    {
+        public Registry(IServiceProvider serviceProvider)
+        {
+        }
+
+    }
+}

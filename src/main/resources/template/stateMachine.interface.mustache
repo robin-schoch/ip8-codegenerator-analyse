@@ -1,0 +1,17 @@
+using Swissframe.Thermos.Common.Contract;
+
+
+namespace Swissframe.Thermos.Control.Contract
+{
+    public interface I{{name}}
+    {
+        {{#properties}}
+        {{type}} {{name}} { get; }
+        {{/properties}}
+
+
+        {{stateEnum}} GetState();
+
+        {{transitionEnum}}? UpdateState({{eventChecker}} eventChecker);
+    }
+}

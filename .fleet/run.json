@@ -1,0 +1,27 @@
+{
+    "configurations": [
+        {
+            "name": "Build ip8-codegenerator-analyse",
+            "type": "gradle",
+            "tasks": [
+                ":classes"
+            ],
+            "initScripts": {
+                "flmapper": "ext.mapPath = { path -> null }",
+                "Build ip8-codegenerator-analyse": "System.setProperty('org.gradle.java.compile-classpath-packaging', 'true')\n"
+            }
+        },
+        {
+            "name": "Generate Code",
+            "type": "jps-run",
+            "dependsOn": [
+                "Build ip8-codegenerator-analyse"
+            ],
+            "mainClass": "ch.fhnw.imvs.templatestring.MainKt",
+            "module": "ip8-codegenerator-analyse.main",
+            "options": [
+                "-Dfile.encoding=UTF-8"
+            ]
+        }
+    ]
+}

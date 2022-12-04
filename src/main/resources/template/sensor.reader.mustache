@@ -1,0 +1,19 @@
+using System;
+using System.Collections.Generic;
+using Swissframe.Util.StateEventEditor.Common;
+using Swissframe.Util.StateEventEditor.Common.Property;
+using static Swissframe.Thermos.HardwareDrivers.Contract.IControlPanelSerialDriver;
+
+namespace Swissframe.Thermos.Hardware.Contract
+{
+
+    public interface ISensorReader
+    {
+        void InvalidateCache();
+
+        {{#properties}}
+        {{type}} {{{name}}}();
+
+        {{/properties}}
+    }
+}
