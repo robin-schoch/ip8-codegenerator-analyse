@@ -32,34 +32,6 @@ data class Parameters(
 
 )
 
-typealias ConditionId = String
-
-@Serializable
-data class Condition(
-    val id: ConditionId,
-    val left: PropertyId,
-    val operator: String,
-    val right: PropertyId,
-    val name: String
-)
-
-typealias DisjunctionId = String
-
-@Serializable
-data class Disjunction(
-    val id: DisjunctionId,
-    val name: String,
-    val terms: List<String>
-)
-
-typealias ConjunctionId = String
-
-@Serializable
-data class Conjunction(
-    val id: ConditionId,
-    val name: String,
-    val terms: List<String>
-)
 
 @Serializable
 data class ParameterWithProperty(
@@ -67,37 +39,6 @@ data class ParameterWithProperty(
     val property: PropertyId
 )
 
-
-typealias EventId = String
-
-@Serializable
-data class Event(
-    val id: EventId,
-    val check: String
-)
-
-typealias StateId = String
-
-@Serializable
-data class State(
-    val id: StateId,
-    val name: String,
-    val description: String,
-    val invocations: List<InvocationId>
-) {
-    val cleanName = name.replace(Regex("[^a-zA-Z\\d_]"), "_")
-}
-
-typealias TransitionId = String
-
-@Serializable
-data class Transition(
-    val id: TransitionId,
-    val event: EventId,
-    val invocations: List<InvocationId>,
-    val source: StateId,
-    val target: StateId?
-)
 
 typealias StateMachineId = String
 

@@ -24,5 +24,7 @@ fun main() {
     //  File("$outputDir/registry.cs").bufferedWriter().use { m2.execute(it, parser.registry) }
 
     Context.registerProperties(parser.properties)
-    Context.propertyContext.forEach { (_, u) -> println(u) }
+    parser.actions.forEach { println(it) }
+    Context.registerAction(parser.actions)
+    // Context.propertyContext.forEach { (_, u) -> println(u) }
 }

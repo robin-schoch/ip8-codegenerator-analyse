@@ -1,15 +1,27 @@
+@file:OptIn(ExperimentalSerializationApi::class)
+
 package ch.fhnw.imvs.semdsl
 
 
 import ch.fhnw.imvs.semdsl.dsl.*
-
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
+import kotlinx.serialization.modules.plus
+
+@ExperimentalSerializationApi
+val modules = listOf(
+    actionSerializersModule
+).reduceRight { serializersModule, modules -> serializersModule + modules }
+
 
 class DSLParser(path: String) {
 
-    private val json = Json { ignoreUnknownKeys = true }
+    @OptIn(ExperimentalSerializationApi::class)
+    private val json = Json {
+        ignoreUnknownKeys = true
+        serializersModule = modules
+    }
 
     @OptIn(ExperimentalSerializationApi::class)
     private val dsl: JSONDSL by lazy {
@@ -19,6 +31,14 @@ class DSLParser(path: String) {
 
     val properties by lazy {
         dsl.properties
+    }
+
+    val conditions by lazy {
+        dsl.conditions
+    }
+
+    val actions by lazy {
+        dsl.actions
     }
 
     val stateMachines: List<StateMachineEnriched> by lazy {

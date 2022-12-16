@@ -1,23 +1,39 @@
 package ch.fhnw.imvs.mustache
 
+import ch.fhnw.imvs.semdsl.DSLParser
+import ch.fhnw.imvs.semdsl.stage2.Context
 import com.github.mustachejava.DefaultMustacheFactory
 import com.github.mustachejava.MustacheFactory
-import java.io.StringWriter
+import java.io.File
 
-class InnerTodo {
-    val inner = "inner"
-}
-class Todo {
-    val sender: String = "wahtever"
-    val blub: InnerTodo = InnerTodo()
+
+object Stage1 {
+    @JvmStatic
+    fun main(args: Array<String>) {
+        val parser = DSLParser("json/state.json")
+        val mf: MustacheFactory = DefaultMustacheFactory()
+        val m = mf.compile("template/v2/jsonStateMachine.mustache")
+        val outputDir = "/Users/robin/Documents/GitHub/ip8-codegenerator-analyse/output"
+        File(outputDir).mkdirs()
+
+        parser.stateMachines.forEach { data ->
+            val output = "$outputDir/${data.machine.name.lowercase()}"
+            File(output).mkdir()
+            File("$output/${data.machine.name}JsonMachine.cs").bufferedWriter().use { m.execute(it, data) }
+        }
+    }
 }
 
-fun main() {
-    val mf: MustacheFactory = DefaultMustacheFactory()
-    val m = mf.compile("template/todo.mustache")
-    val todo = Todo()
-    val writer = StringWriter()
-    m.execute(writer, todo).flush()
-    val html: String = writer.toString()
-    println(html)
+object Stage2 {
+    @JvmStatic
+    fun main(args: Array<String>) {
+        val parser = DSLParser("json/state.json")
+        //  val m2 = mf.compile("template/v2/registry.mustache")
+        //  File("$outputDir/registry.cs").bufferedWriter().use { m2.execute(it, parser.registry) }
+
+        Context.registerProperties(parser.properties)
+        parser.actions.forEach { println(it) }
+        Context.registerAction(parser.actions)
+        // Context.propertyContext.forEach { (_, u) -> println(u) }
+    }
 }
