@@ -7,11 +7,14 @@ typealias DisjunctionId = String
 
 @Serializable
 data class Disjunction(
-    val id: DisjunctionId,
+    override val id: DisjunctionId,
     val name: String,
     val terms: List<String>
-) {
-    context(Context) fun use(): String = terms
-        .map { termContext[it]!! }
+) : ParseableTerm {
+    override fun allDependencyParsed(parsedElements: Set<String>) = parsedElements.containsAll(terms)
+
+    context(Context)
+    override fun use(): String = terms
+        .map { inlineElements[it]!! }
         .joinToString(separator = " || ", prefix = "(", postfix = ")") { it }
 }

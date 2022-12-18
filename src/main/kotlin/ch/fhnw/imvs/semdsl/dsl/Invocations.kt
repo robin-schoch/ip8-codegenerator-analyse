@@ -11,4 +11,8 @@ data class Invocation(
     val parameters: List<ParameterWithProperty>,
     val action: ActionId,
     val name: String
-)
+) {
+
+    fun allDependencyParsed(parsedElements: Set<String>) = parsedElements.containsAll(parameters.map { it.property })
+    
+}

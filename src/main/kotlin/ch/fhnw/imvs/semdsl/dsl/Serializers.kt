@@ -1,7 +1,5 @@
 package ch.fhnw.imvs.semdsl.dsl
 
-import ch.fhnw.imvs.semdsl.dsl.HeapPump
-import ch.fhnw.imvs.semdsl.dsl.PropertySource
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializer
 import kotlinx.serialization.descriptors.SerialDescriptor

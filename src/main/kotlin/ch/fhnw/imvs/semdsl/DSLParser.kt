@@ -33,12 +33,23 @@ class DSLParser(path: String) {
         dsl.properties
     }
 
-    val conditions by lazy {
-        dsl.conditions
+    val terms by lazy {
+        dsl.conditions + dsl.conjunctions + dsl.disjunctions
     }
+
 
     val actions by lazy {
         dsl.actions
+    }
+
+    val invocations by lazy {
+        dsl.invocations
+    }
+    val events by lazy {
+        dsl.events
+    }
+    val transitions by lazy {
+        dsl.transitions
     }
 
     val stateMachines: List<StateMachineEnriched> by lazy {

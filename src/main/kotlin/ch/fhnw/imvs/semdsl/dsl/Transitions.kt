@@ -1,5 +1,6 @@
 package ch.fhnw.imvs.semdsl.dsl
 
+import ch.fhnw.imvs.semdsl.stage2.Context
 import kotlinx.serialization.Serializable
 
 
@@ -12,5 +13,23 @@ data class Transition(
     val invocations: List<InvocationId>,
     val source: StateId,
     val target: StateId?
-)
+) {
+
+    context(Context)
+    fun use(target: String) = """
+       if (${eventContext[event]!!.use})
+       {
+           ${inlineInvocations()}
+        
+           return $target;
+       }
+    """.trimIndent()
+
+    context(Context)
+    private fun inlineInvocations() =
+        invocations.fold("") { acc, it ->
+            """
+            ${inlineElements[it]}""" + acc
+        }
+}
 

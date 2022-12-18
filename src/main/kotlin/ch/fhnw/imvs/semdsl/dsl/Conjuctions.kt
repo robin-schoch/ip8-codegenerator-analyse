@@ -7,11 +7,15 @@ typealias ConjunctionId = String
 
 @Serializable
 data class Conjunction(
-    val id: ConditionId,
+    override val id: ConditionId,
     val name: String,
     val terms: List<String>
-) {
-    context(Context) fun use(): String = terms
-        .map { termContext[it]!! }
+) : ParseableTerm {
+    context(Context)
+    override fun use(): String = terms
+        .map { inlineElements[it]!! }
         .joinToString(separator = " && ", prefix = "(", postfix = ")") { it }
+
+    override fun allDependencyParsed(parsedElements: Set<String>) = parsedElements.containsAll(terms)
+
 }

@@ -14,7 +14,8 @@ data class Event(
         """
         private bool $name
         {
-            var result = ${termContext[check]!!}
+            var result = ${inlineElements[check]!!};
+            _logger.LogDebug("Event: $name ($id) evaluates to {result}", result);
             return result;
         } 
         """.trimIndent()

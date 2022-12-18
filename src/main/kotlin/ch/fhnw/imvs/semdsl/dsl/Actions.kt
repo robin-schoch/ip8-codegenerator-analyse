@@ -1,6 +1,5 @@
 package ch.fhnw.imvs.semdsl.dsl
 
-import ch.fhnw.imvs.semdsl.stage2.Context
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -30,8 +29,7 @@ sealed class Action {
     abstract val parameters: List<ParameterId>
     abstract val constraints: List<List<String>>
 
-    context(Context)
-    open fun use(vars: List<ParameterWithProperty>): String = ""
+    open fun use(inlineElements: List<String>): String = ""
 }
 
 @Serializable
@@ -43,7 +41,7 @@ data class Template(
     override val parameters: List<ParameterId>,
     override val constraints: List<List<String>>
 ) : Action() {
-    context(Context) override fun use(vars: List<ParameterWithProperty>): String = TODO()
+    override fun use(inlineElements: List<String>): String = "TODO()"
 }
 
 
@@ -57,8 +55,8 @@ class StartTimerActionHandler(
     override val parameters: List<ParameterId>,
     override val constraints: List<List<String>>
 ) : Action() {
-    context(Context) override fun use(vars: List<ParameterWithProperty>): String =
-        "${propertyContext[vars[0].property]!!.use}.Start()"
+    override fun use(inlineElements: List<String>): String =
+        "${inlineElements[0]}.Start()"
 }
 
 @Serializable
@@ -71,12 +69,10 @@ class InvokeIf(
     override val parameters: List<ParameterId>,
     override val constraints: List<List<String>>
 ) : Action() {
-    context(Context) override fun use(vars: List<ParameterWithProperty>): String =
-
-        // todo first vars call is for condition, condition have no been parsed yet
+    override fun use(inlineElements: List<String>): String =
         """
-            if(${termContext[vars[0].property]!!}) {
-                ${propertyContext[vars[1].property]!!.use}
+            if(${inlineElements[0]}) {
+                ${inlineElements[1]}
             }
         """.trimIndent()
 }
@@ -91,8 +87,8 @@ class Subtract(
     override val parameters: List<ParameterId>,
     override val constraints: List<List<String>>
 ) : Action() {
-    context(Context) override fun use(vars: List<ParameterWithProperty>): String =
-        "${propertyContext[vars[0].property]!!.use} -= ${propertyContext[vars[1].property]!!.use}"
+    override fun use(inlineElements: List<String>): String =
+        "${inlineElements[0]} -= ${inlineElements[1]};"
 }
 
 @Serializable
@@ -105,8 +101,8 @@ class Add(
     override val parameters: List<ParameterId>,
     override val constraints: List<List<String>>
 ) : Action() {
-    context(Context) override fun use(vars: List<ParameterWithProperty>): String =
-        "${propertyContext[vars[0].property]!!.use} += ${propertyContext[vars[1].property]!!.use}"
+    override fun use(inlineElements: List<String>): String =
+        "${inlineElements[0]} += ${inlineElements[1]};"
 }
 
 @Serializable
@@ -119,8 +115,8 @@ class Decrement(
     override val parameters: List<ParameterId>,
     override val constraints: List<List<String>>
 ) : Action() {
-    context(Context) override fun use(vars: List<ParameterWithProperty>): String =
-        "${propertyContext[vars[0].property]!!.use}--"
+    override fun use(inlineElements: List<String>): String =
+        "${inlineElements[0]}--;"
 }
 
 @Serializable
@@ -133,8 +129,8 @@ class Increment(
     override val parameters: List<ParameterId>,
     override val constraints: List<List<String>>
 ) : Action() {
-    context(Context) override fun use(vars: List<ParameterWithProperty>): String =
-        "${propertyContext[vars[0].property]!!.use}++"
+    override fun use(inlineElements: List<String>): String =
+        "${inlineElements[0]}++;"
 }
 
 @Serializable
@@ -147,8 +143,8 @@ class Zero(
     override val parameters: List<ParameterId>,
     override val constraints: List<List<String>>
 ) : Action() {
-    context(Context) override fun use(vars: List<ParameterWithProperty>): String =
-        "${propertyContext[vars[0].property]!!.use} = 0"
+    override fun use(inlineElements: List<String>): String =
+        "${inlineElements[0]} = 0;"
 }
 
 @Serializable
@@ -161,6 +157,6 @@ class Assign(
     override val parameters: List<ParameterId>,
     override val constraints: List<List<String>>
 ) : Action() {
-    context(Context) override fun use(vars: List<ParameterWithProperty>): String =
-        "${propertyContext[vars[0].property]!!.use} = ${propertyContext[vars[1].property]!!.use}"
+    override fun use(inlineElements: List<String>): String =
+        "${inlineElements[0]} = ${inlineElements[1]};"
 }
