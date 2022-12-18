@@ -33,7 +33,6 @@ object Stage2 {
         val outputDir = "/Users/robin/Documents/GitHub/ip8-codegenerator-analyse/output/stage2"
         File(outputDir).mkdirs()
         Context.registerProperties(parser.properties)
-        // Context.inlineElements.forEach { (t, u) -> println(u) }
         Context.registryElements.forEach { (t, u) -> println(u) }
         Context.registerTerm(parser.terms)
         File("$outputDir/registry.cs").bufferedWriter().use { m2.execute(it, Context.properties()) }
@@ -42,8 +41,14 @@ object Stage2 {
 
         Context.registerInvocation(parser.invocations)
         Context.registerEvents(parser.events)
-        //  Context.eventContext.forEach { (_, u) -> println(u) }
         Context.registerTransitions(parser.transitions)
+        Context.registerStates(parser.states)
+        val m3 = mf.compile("template/v2/resolveJsonStateMachine.mustache")
+        Context.registerStatemachine(parser.stateMachines2).forEach {
+            it.states.map { it.stateTransition }
+            File("$outputDir/${it.name}.cs").bufferedWriter().use { writer -> m3.execute(writer, it) }
+        }
+
 
     }
 }

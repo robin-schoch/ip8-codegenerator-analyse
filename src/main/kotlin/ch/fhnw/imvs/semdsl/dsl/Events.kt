@@ -10,7 +10,7 @@ data class Event(
     val id: EventId,
     val check: String
 ) {
-    context(Context) fun use(name: String): String =
+    context(Context) fun use(name: String): List<String> =
         """
         private bool $name
         {
@@ -18,6 +18,6 @@ data class Event(
             _logger.LogDebug("Event: $name ($id) evaluates to {result}", result);
             return result;
         } 
-        """.trimIndent()
+        """.trimIndent().split("\n")
 }
 

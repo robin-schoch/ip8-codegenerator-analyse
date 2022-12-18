@@ -51,6 +51,12 @@ class DSLParser(path: String) {
     val transitions by lazy {
         dsl.transitions
     }
+    val states by lazy {
+        dsl.states
+    }
+    val stateMachines2 by lazy {
+        dsl.stateMachines
+    }
 
     val stateMachines: List<StateMachineEnriched> by lazy {
         val eventMap = dsl.stateMachines.associateWith { machine ->

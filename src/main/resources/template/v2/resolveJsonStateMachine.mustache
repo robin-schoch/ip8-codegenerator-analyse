@@ -8,32 +8,63 @@ using Swissframe.Thermos.Hardware.Contract;
 namespace Swissframe.Util.StateEventEditor.Common.Test
 {
 
-    public class {{machine.name}}
+    public class {{name}}
     {
     {{#states}}
-        private const string {{state.cleanName}} = nameOf{{state.cleanName}});
+        private const string {{name}} = nameOf({{name}});
     {{/states}}
 
         private readonly IServiceProvider _serviceProvider;
         private readonly Registry _registry;
         private readonly ILogger _logger;
 
-        private string _currentState = {{initialState.cleanName}};
+        private string _currentState = {{initialState.name}};
 
-        public {{machine.name}}(IServiceProvider serviceProvider, Registry registry, ILogger logger)
+        public {{name}}(IServiceProvider serviceProvider, Registry registry, ILogger logger)
         {
             _serviceProvider = serviceProvider;
             _registry = registry;
             _logger = logger;
         }
-    }
 
-
-    class {{machine.name}}Registry
-    {
-        public Registry(IServiceProvider serviceProvider)
+        public void UpdateState()
         {
+            var nextState = _currentState switch
+            {
+            {{#states}}
+                {{name}} => {{name}}State();
+            {{/states}}
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            if (nextState != _currentState)
+            {
+                _logger.LogInformation("perform transition from {source} to {target}", _currentState, nextState);
+            }
+            _currentState = nextState;
         }
 
+    {{#states}}
+        private string {{name}}State()
+        {
+            {{{stateTransition}}}
+
+    {{#transitions}}
+        {{#.}}
+            {{{.}}}
+        {{/.}}
+
+    {{/transitions}}
+
+            return {{name}};
+        }
+    {{/states}}
+
+{{#events}}
+    {{#definition}}
+        {{{.}}}
+    {{/definition}}
+
+{{/events}}
     }
 }

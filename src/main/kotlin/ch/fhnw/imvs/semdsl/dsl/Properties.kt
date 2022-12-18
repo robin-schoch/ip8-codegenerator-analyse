@@ -67,7 +67,7 @@ sealed class Property : RegistryDestination {
     }
 
     open fun use(): String {
-        return "${source.formattedName}_$name"
+        return "_registry.${source.formattedName}_$name"
     }
 }
 

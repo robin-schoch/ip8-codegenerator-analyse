@@ -14,16 +14,10 @@ data class State(
 ) {
     val cleanName = name.replace(Regex("[^a-zA-Z\\d_]"), "_")
 
-    private fun inlineInvocations() =
+    context(Context)
+    fun inlineInvocations() =
         invocations.fold("") { acc, it ->
             """
-            ${Context.inlineElements[it]}""" + acc
-        }
-
-    context(Context)
-    private fun inlineTransitions() = invocations.fold("") { acc, it ->
-        """
             ${inlineElements[it]}""" + acc
-    }
-
+        }
 }

@@ -16,20 +16,26 @@ data class Transition(
 ) {
 
     context(Context)
-    fun use(target: String) = """
+    fun use(): List<String> {
+
+        if (inlineInvocations().isEmpty() && stateContext[target] == null) {
+            return listOf()
+        }
+
+        return """
        if (${eventContext[event]!!.use})
        {
            ${inlineInvocations()}
-        
-           return $target;
+           ${stateContext[target].let { if (it != null) "return $it;" else "" }}
        }
-    """.trimIndent()
+    """.trimIndent().split("\n")
+    }
 
     context(Context)
     private fun inlineInvocations() =
         invocations.fold("") { acc, it ->
             """
-            ${inlineElements[it]}""" + acc
+           ${inlineElements[it]}""" + acc
         }
 }
 
