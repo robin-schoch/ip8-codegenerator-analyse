@@ -70,7 +70,7 @@ class StartTimerActionHandler(
             val timer = if (actionParams.isNotEmpty()) {
                 items[actionParams.first()] ?: error("Parameter with id ${actionParams.first()} does not exist")
             } else error("Missing parameter for StartTimerActionHandler")
-            "${timer.call(items, actionParams)}.Start()"
+            "${timer.call(items, actionParams)}.Start();"
         }
     }
 }

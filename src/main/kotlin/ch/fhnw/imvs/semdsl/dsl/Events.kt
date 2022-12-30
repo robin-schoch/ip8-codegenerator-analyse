@@ -15,22 +15,23 @@ data class Event(
 ) : InlineableItem, StateMachinableItem {
 
 
+    val cleanName = "Event${id.substring(0, 8)}()"
     override fun getKey(): String {
         return id
     }
 
     override fun buildCall(): InlineItem {
-        return InlineItem(id) { _, _ -> "Event$id()" }
+        return InlineItem(id) { _, _ -> cleanName }
     }
 
     override fun buildStateMachineEntry(): StateMachineItem {
         return StateMachineItem(id) { items, _ ->
             val checkResult = items[check] ?: error("Check does not exist")
             """
-        private bool Event$id()
+        private bool $cleanName
         {
             var result = ${checkResult.call(items, listOf())};
-            _logger.LogDebug("Event: Event$id()($id) evaluates to {result}", result);
+            _logger.LogDebug("Event: $cleanName evaluates to {result}", result);
             return result;
         } 
         """.trimIndent().split("\n")

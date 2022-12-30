@@ -19,26 +19,26 @@ object PropertySourceSerializer : KSerializer<PropertySource> {
     }
 }
 
-@Serializer(forClass = HeapPump::class)
-object HeapPumpSerializer : KSerializer<HeapPump> {
+@Serializer(forClass = HeatPump::class)
+object HeatPumpSerializer : KSerializer<HeatPump> {
     override val descriptor: SerialDescriptor = serialDescriptor<String>()
-    override fun serialize(output: Encoder, obj: HeapPump) {
+    override fun serialize(output: Encoder, obj: HeatPump) {
         when (obj) {
-            HeapPump.NONE -> "3122777f-2b32-4e36-a9ee-e82d3bd7f73b"
-            HeapPump.LEVEL_2 -> "1559e7c8-1792-40f0-8fcb-88d459b5999f"
-            HeapPump.LEVEL_3 -> "131ac64c-a030-4621-9fe4-aa26b104ee45"
-            HeapPump.DEFROST_OR_DRIP_OFF -> "e0a25fc4-7d88-491c-8b3c-67716381e13f"
+            HeatPump.NONE -> "3122777f-2b32-4e36-a9ee-e82d3bd7f73b"
+            HeatPump.LEVEL_2 -> "1559e7c8-1792-40f0-8fcb-88d459b5999f"
+            HeatPump.LEVEL_3 -> "131ac64c-a030-4621-9fe4-aa26b104ee45"
+            HeatPump.DEFROST_OR_DRIP_OFF -> "e0a25fc4-7d88-491c-8b3c-67716381e13f"
         }.let { output.encodeString(it) }
 
     }
 
-    override fun deserialize(input: Decoder): HeapPump {
+    override fun deserialize(input: Decoder): HeatPump {
         return when (input.decodeString()) {
-            "3122777f-2b32-4e36-a9ee-e82d3bd7f73b" -> HeapPump.NONE
-            "1559e7c8-1792-40f0-8fcb-88d459b5999f" -> HeapPump.LEVEL_2
-            "131ac64c-a030-4621-9fe4-aa26b104ee45" -> HeapPump.LEVEL_3
-            "e0a25fc4-7d88-491c-8b3c-67716381e13f" -> HeapPump.DEFROST_OR_DRIP_OFF
-            else -> HeapPump.NONE
+            "3122777f-2b32-4e36-a9ee-e82d3bd7f73b" -> HeatPump.NONE
+            "1559e7c8-1792-40f0-8fcb-88d459b5999f" -> HeatPump.LEVEL_2
+            "131ac64c-a030-4621-9fe4-aa26b104ee45" -> HeatPump.LEVEL_3
+            "e0a25fc4-7d88-491c-8b3c-67716381e13f" -> HeatPump.DEFROST_OR_DRIP_OFF
+            else -> HeatPump.NONE
         }
 
     }

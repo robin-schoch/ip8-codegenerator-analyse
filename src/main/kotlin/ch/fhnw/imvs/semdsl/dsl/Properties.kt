@@ -37,10 +37,13 @@ sealed class Property : RegistrableItem, InlineableItem {
     }
 
     protected fun initialValue() = if (value != null) " = $value;" else ""
-    open fun cleanName() = "${source.formattedName}_$name"
+    open fun cleanName(): String {
+        val removedIllegalCharacters = name.replace(Regex("-|:|\\(|\\)|\\s"), "_")
+        return "${source.formattedName}_$removedIllegalCharacters"
+    }
 
     open fun use(): String {
-        return "_registry.${source.formattedName}_$name"
+        return "_registry.${cleanName()}"
     }
 
     override fun buildCall(): InlineItem {
@@ -102,7 +105,7 @@ class BooleanProperty(
 ) : Property() {
 
 
-    private val statement = "public bool ${source.formattedName}_$name} { get; set; } ${initialValue()}"
+    private val statement = "public bool ${cleanName()} { get; set; } ${initialValue()}"
     override fun buildEntry(): RegistryItem {
         return RegistryItem(id) { _ -> statement }
     }
@@ -201,8 +204,8 @@ class TimerProperty(
     }
 }
 
-@Serializable(with = HeapPumpSerializer::class)
-enum class HeapPump {
+@Serializable(with = HeatPumpSerializer::class)
+enum class HeatPump {
     NONE,
     LEVEL_2,
     LEVEL_3,
@@ -212,17 +215,17 @@ enum class HeapPump {
 
 @Serializable
 @SerialName("5ea7f8d3-650b-4c70-96dd-082681bd455e")
-class HeapPumpNowProperty(
+class HeatPumpNowProperty(
     override val id: PropertyId,
     override val name: String,
     override val hardcoded: Boolean,
     override val source: PropertySource,
     override val type: String,
-    override val value: HeapPump? = null,
+    override val value: HeatPump? = null,
     override val unit: String = LocalDateTime.now().toString(),
 ) : Property() {
 
-    val statement = "public HeapPump ${cleanName()} { get; set; }"
+    val statement = "public HeatPump ${cleanName()} { get; set; }"
 
     override fun buildEntry(): RegistryItem {
         return RegistryItem(id) { _ -> statement }

@@ -11,7 +11,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
     public class {{name}}
     {
     {{#statesDefinition}}
-        private const string {{.}} = nameOf({{.}});
+        private const string {{.}} = nameof({{.}});
     {{/statesDefinition}}
 
         private readonly IServiceProvider _serviceProvider;
@@ -32,7 +32,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
             var nextState = _currentState switch
             {
             {{#statesDefinition}}
-                {{.}} => {{.}}State();
+                {{.}} => {{.}}State(),
             {{/statesDefinition}}
                 _ => throw new ArgumentOutOfRangeException()
             };

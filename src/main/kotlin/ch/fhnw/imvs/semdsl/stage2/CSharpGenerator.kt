@@ -113,7 +113,7 @@ object CSharpGenerator : Generator {
     data class StateMachineTemplate(val stateMachine: StateMachineData) {
 
         val initialState = (stateMachineItems[stateMachine.initialState] ?: error("Initial State is missing"))
-            .definition(inlineItems, stateMachineItems)
+            .definition(inlineItems, stateMachineItems).first()
 
         val name = stateMachine.name
 
