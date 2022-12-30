@@ -8,6 +8,9 @@ import java.io.File
 
 object CSharpGenerator : Generator {
 
+
+    override val key = "CSharpGenerator"
+
     private val mustacheFactory by lazy { DefaultMustacheFactory() }
 
     private val _registry: MutableMap<String, RegistryItem> = mutableMapOf()
@@ -44,11 +47,13 @@ object CSharpGenerator : Generator {
         }
     }
 
-    override fun generateRegistry(mustacheTemplatePath: String, outputDir: String) {
+    fun generateRegistry(mustacheTemplatePath: String, outputDir: String) {
         val compiledTemplate = mustacheFactory.compile(mustacheTemplatePath)
+        val outputPath = "$outputDir/registry.cs"
         File(outputDir).mkdirs()
-        File("$outputDir/registry.cs").bufferedWriter()
+        File(outputPath).bufferedWriter()
             .use { compiledTemplate.execute(it, RegistryTemplate(registry.values)) }
+        println("Generated registry $outputPath")
     }
 
 
@@ -58,14 +63,17 @@ object CSharpGenerator : Generator {
         outputDir: String
     ) {
         val compiledTemplate = mustacheFactory.compile(mustacheTemplatePath)
+        val outputPath = "$outputDir/${stateMachineTemplate.name}.cs"
         File(outputDir).mkdirs()
-        File("$outputDir/${stateMachineTemplate.name}.cs").bufferedWriter()
+        File(outputPath).bufferedWriter()
             .use { compiledTemplate.execute(it, stateMachineTemplate) }
+        println("Generated state machine $outputPath")
     }
 
-    override fun generateStateMachines(mustacheTemplatePath: String, outputDir: String, machines: Set<String>) {
+    override fun generateStateMachines(outputDir: String, machines: Set<String>) {
+        generateRegistry("template/v2/refactored/registry.mustache", outputDir)
         stateMachines.values.filter { machines.contains(it.name) }.map { StateMachineTemplate(it) }.forEach {
-            generateStateMachine(it, mustacheTemplatePath, outputDir)
+            generateStateMachine(it, "template/v2/refactored/resolveJsonStateMachine.mustache", outputDir)
         }
     }
 
@@ -104,7 +112,6 @@ object CSharpGenerator : Generator {
 
     data class StateMachineTemplate(val stateMachine: StateMachineData) {
 
-
         val initialState = (stateMachineItems[stateMachine.initialState] ?: error("Initial State is missing"))
             .definition(inlineItems, stateMachineItems)
 
@@ -117,12 +124,6 @@ object CSharpGenerator : Generator {
             .map { it.definition(inlineItems, stateMachineItems).first() }
 
         val stateTransition = stateMachine.states.map { TransitionTemplate(it) }
-
-        /*
-
-
-
-         */
     }
 
     data class TransitionTemplate(val state: String) {
@@ -138,20 +139,20 @@ object CSharpGenerator : Generator {
 
     }
 
-}
-
-data class StateMachineData(
-    val hash: String,
-    val name: String,
-    val initialState: String,
-    val states: List<String>,
-    val events: List<String>
-) {
-
-    companion object {
-        fun of(machine: StateMachine): StateMachineData {
-            return StateMachineData(machine.id, machine.name, machine.initialState, machine.states, machine.events)
+    data class StateMachineData(
+        val hash: String,
+        val name: String,
+        val initialState: String,
+        val states: List<String>,
+        val events: List<String>
+    ) {
+        companion object {
+            fun of(machine: StateMachine): StateMachineData {
+                return StateMachineData(machine.id, machine.name, machine.initialState, machine.states, machine.events)
+            }
         }
     }
 }
+
+
 

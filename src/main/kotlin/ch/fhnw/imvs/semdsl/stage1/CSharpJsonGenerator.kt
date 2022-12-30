@@ -7,6 +7,9 @@ import java.io.File
 
 object CSharpJsonGenerator : Generator {
 
+
+    override val key = "CSharpJsonGenerator"
+
     private val mustacheFactory by lazy { DefaultMustacheFactory() }
 
     lateinit var stateMachines: List<StateMachineEnriched>
@@ -37,16 +40,14 @@ object CSharpJsonGenerator : Generator {
             dsl.stateMachines.map { StateMachineEnriched(it, stateMap[it]!!, eventMap[it]!!) }
     }
 
-    override fun generateRegistry(mustacheTemplatePath: String, outputDir: String) {
-
-    }
-
-    override fun generateStateMachines(mustacheTemplatePath: String, outputDir: String, machines: Set<String>) {
+    override fun generateStateMachines(outputDir: String, machines: Set<String>) {
         stateMachines.forEach { data ->
-            val mustacheTemplate = mustacheFactory.compile(mustacheTemplatePath)
+            val outputPath = "$outputDir/${data.machine.name}JsonMachine.cs"
+            val mustacheTemplate = mustacheFactory.compile("template/v2/jsonStateMachine.mustache")
             File(outputDir).mkdirs()
-            File("$outputDir/${data.machine.name}JsonMachine.cs").bufferedWriter()
+            File(outputPath).bufferedWriter()
                 .use { mustacheTemplate.execute(it, data) }
+            println("Generated state machine $outputPath")
         }
 
     }

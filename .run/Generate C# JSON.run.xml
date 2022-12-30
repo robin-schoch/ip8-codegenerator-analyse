@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Generate C# JSON" type="JetRunConfigurationType">
+    <option name="MAIN_CLASS_NAME" value="ch.fhnw.imvs.mustache.MainKt" />
+    <module name="ip8-codegenerator-analyse.main" />
+    <option name="PROGRAM_PARAMETERS" value="-G CSharpJsonGenerator" />
+    <shortenClasspath name="NONE" />
+    <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
+      <option name="credential" />
+      <option name="region" />
+      <option name="useCurrentConnection" value="false" />
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

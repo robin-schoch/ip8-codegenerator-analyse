@@ -4,12 +4,13 @@ import ch.fhnw.imvs.semdsl.dsl.JSONDSL
 
 interface Generator {
 
+    val key: String
+
+    fun register() = GeneratorRegistry.register(this)
     fun initialise(dsl: JSONDSL)
 
 
-    fun generateRegistry(mustacheTemplatePath: String, outputDir: String)
-
-    fun generateStateMachines(mustacheTemplatePath: String, outputDir: String, machines: Set<String>)
+    fun generateStateMachines(outputDir: String, machines: Set<String>)
 
     fun listMachines(): Set<String>
 }
