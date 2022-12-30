@@ -10,6 +10,7 @@ object Context {
     val registryElements: MutableMap<String, String> = mutableMapOf()
 
     val actionContext: MutableMap<String, (List<String>) -> String> = mutableMapOf()
+    
     val transitionContext: MutableMap<String, List<() -> List<String>>> = mutableMapOf()
 
     val eventContext: MutableMap<String, GeneratedEvent> = mutableMapOf()

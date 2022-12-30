@@ -1,6 +1,6 @@
 package ch.fhnw.imvs.semdsl.dsl
 
-import ch.fhnw.imvs.semdsl.stage2.Context
+import ch.fhnw.imvs.semdsl.stage2.*
 import kotlinx.serialization.Serializable
 
 
@@ -13,7 +13,42 @@ data class Transition(
     val invocations: List<InvocationId>,
     val source: StateId,
     val target: StateId?
-) {
+) : StateMachinableItem, TransitionableItem {
+
+    override fun buildStateMachineEntry(): StateMachineItem {
+        return StateMachineItem(id) { items, stateMachineItems ->
+            println("called")
+            val callableEvent = items[event] ?: error("Event does not exist")
+            val callableTarget = stateMachineItems[target]
+
+            val callableInvocations =
+                invocations.map { items[it] ?: error("invocation does not exist") }
+                    .map { it.call(items, listOf()) }
+                    .fold("") { acc, it ->
+                        """
+                $it""" + acc
+                    }
+
+            val x = """
+            if (${callableEvent.call(items, listOf())})
+            {
+                $callableInvocations
+                ${
+                if (callableTarget != null) "return ${
+                    callableTarget.definition(items, stateMachineItems).first()
+                };" else ""
+            }
+            }
+            """.trimIndent().split("\n")
+            println(x)
+
+            x
+        }
+    }
+
+    override fun buildTransition(): TransitionItem {
+        return TransitionItem(id, source)
+    }
 
     context(Context)
     fun use(): List<String> {
@@ -31,11 +66,18 @@ data class Transition(
     """.trimIndent().split("\n")
     }
 
+
     context(Context)
     private fun inlineInvocations() =
         invocations.fold("") { acc, it ->
             """
            ${inlineElements[it]}""" + acc
         }
+
+    override fun getKey(): String {
+        return id
+    }
+
+
 }
 

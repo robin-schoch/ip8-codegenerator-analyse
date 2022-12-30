@@ -42,14 +42,6 @@ data class ParameterWithProperty(
 
 typealias StateMachineId = String
 
-@Serializable
-data class StateMachine(
-    val id: StateMachineId,
-    val name: String,
-    val states: List<StateId>,
-    val events: List<EventId>,
-    val initialState: StateId
-)
 
 @Serializable
 data class Type(

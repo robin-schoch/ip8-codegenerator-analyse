@@ -1,6 +1,7 @@
 package ch.fhnw.imvs.mustache
 
 import ch.fhnw.imvs.semdsl.DSLParser
+import ch.fhnw.imvs.semdsl.stage2.CSharpGenerator
 import ch.fhnw.imvs.semdsl.stage2.Context
 import com.github.mustachejava.DefaultMustacheFactory
 import com.github.mustachejava.MustacheFactory
@@ -50,5 +51,17 @@ object Stage2 {
         }
 
 
+    }
+}
+
+object Stage2Refactored {
+
+    @JvmStatic
+    fun main(args: Array<String>) {
+        val parser = DSLParser("json/state.json")
+        CSharpGenerator.initialise(parser.dsl)
+        val outputDir = "/Users/robin/Documents/GitHub/ip8-codegenerator-analyse/output/stage2refactored"
+        CSharpGenerator.generateRegistry("template/v2/refactored/registry.mustache", outputDir)
+        CSharpGenerator.generateStateMachines("template/v2/refactored/resolveJsonStateMachine.mustache", outputDir)
     }
 }

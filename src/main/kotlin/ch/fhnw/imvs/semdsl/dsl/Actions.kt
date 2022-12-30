@@ -1,5 +1,8 @@
 package ch.fhnw.imvs.semdsl.dsl
 
+import ch.fhnw.imvs.semdsl.stage2.InlineItem
+import ch.fhnw.imvs.semdsl.stage2.InlineItems
+import ch.fhnw.imvs.semdsl.stage2.InlineableItem
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -21,7 +24,7 @@ val actionSerializersModule = SerializersModule {
 @OptIn(ExperimentalSerializationApi::class)
 @Serializable
 @JsonClassDiscriminator("id")
-sealed class Action {
+sealed class Action : InlineableItem {
     abstract val id: ActionId
     abstract val name: String
     abstract val description: String
@@ -30,6 +33,10 @@ sealed class Action {
     abstract val constraints: List<List<String>>
 
     open fun use(inlineElements: List<String>): String = ""
+    override fun getKey(): String {
+        return id
+    }
+
 }
 
 @Serializable
@@ -42,6 +49,9 @@ data class Template(
     override val constraints: List<List<String>>
 ) : Action() {
     override fun use(inlineElements: List<String>): String = "TODO()"
+    override fun buildCall(): InlineItem {
+        return InlineItem(id) { _, _ -> "// TODO implement templates" }
+    }
 }
 
 
@@ -57,6 +67,15 @@ class StartTimerActionHandler(
 ) : Action() {
     override fun use(inlineElements: List<String>): String =
         "${inlineElements[0]}.Start()"
+
+    override fun buildCall(): InlineItem {
+        return InlineItem(id) { items: InlineItems, actionParams ->
+            val timer = if (actionParams.isNotEmpty()) {
+                items[actionParams.first()] ?: error("Parameter with id ${actionParams.first()} does not exist")
+            } else error("Missing parameter for StartTimerActionHandler")
+            "${timer.call(items, actionParams)}.Start()"
+        }
+    }
 }
 
 @Serializable
@@ -75,6 +94,19 @@ class InvokeIf(
                 ${inlineElements[1]}
             }
         """.trimIndent()
+
+    override fun buildCall(): InlineItem {
+        return InlineItem(id) { items: InlineItems, actionParams ->
+            val (condition, action) = if (actionParams.size >= 2) {
+                actionParams.map { items[it] ?: error("Parameter with id ${actionParams.first()} does not exist") }
+            } else error("Missing parameter for InvokeIf Action")
+            """
+            if(${condition.call(items, actionParams)}) {
+                ${action.call(items, actionParams)}
+            }
+            """.trimIndent()
+        }
+    }
 }
 
 @Serializable
@@ -89,6 +121,15 @@ class Subtract(
 ) : Action() {
     override fun use(inlineElements: List<String>): String =
         "${inlineElements[0]} -= ${inlineElements[1]};"
+
+    override fun buildCall(): InlineItem {
+        return InlineItem(id) { items: InlineItems, actionParams ->
+            val (subtractee, subtractor) = if (actionParams.size >= 2) {
+                actionParams.map { items[it] ?: error("Parameter with id ${actionParams.first()} does not exist") }
+            } else error("Missing parameter for Subtract Action")
+            "${subtractee.call(items, actionParams)} -= ${subtractor.call(items, actionParams)};"
+        }
+    }
 }
 
 @Serializable
@@ -103,6 +144,15 @@ class Add(
 ) : Action() {
     override fun use(inlineElements: List<String>): String =
         "${inlineElements[0]} += ${inlineElements[1]};"
+
+    override fun buildCall(): InlineItem {
+        return InlineItem(id) { items: InlineItems, actionParams ->
+            val (addee, addor) = if (actionParams.size >= 2) {
+                actionParams.map { items[it] ?: error("Parameter with id ${actionParams.first()} does not exist") }
+            } else error("Missing parameter for Add Action")
+            "${addee.call(items, actionParams)} -= ${addor.call(items, actionParams)};"
+        }
+    }
 }
 
 @Serializable
@@ -117,6 +167,15 @@ class Decrement(
 ) : Action() {
     override fun use(inlineElements: List<String>): String =
         "${inlineElements[0]}--;"
+
+    override fun buildCall(): InlineItem {
+        return InlineItem(id) { items: InlineItems, actionParams ->
+            val number = if (actionParams.isNotEmpty()) {
+                items[actionParams.first()] ?: error("Parameter with id ${actionParams.first()} does not exist")
+            } else error("Missing parameter for Decrement")
+            "${number.call(items, actionParams)}--;"
+        }
+    }
 }
 
 @Serializable
@@ -131,6 +190,15 @@ class Increment(
 ) : Action() {
     override fun use(inlineElements: List<String>): String =
         "${inlineElements[0]}++;"
+
+    override fun buildCall(): InlineItem {
+        return InlineItem(id) { items: InlineItems, actionParams ->
+            val number = if (actionParams.isNotEmpty()) {
+                items[actionParams.first()] ?: error("Parameter with id ${actionParams.first()} does not exist")
+            } else error("Missing parameter for Increment")
+            "${number.call(items, actionParams)}++;"
+        }
+    }
 }
 
 @Serializable
@@ -145,6 +213,15 @@ class Zero(
 ) : Action() {
     override fun use(inlineElements: List<String>): String =
         "${inlineElements[0]} = 0;"
+
+    override fun buildCall(): InlineItem {
+        return InlineItem(id) { items: InlineItems, actionParams ->
+            val number = if (actionParams.isNotEmpty()) {
+                items[actionParams.first()] ?: error("Parameter with id ${actionParams.first()} does not exist")
+            } else error("Missing parameter for Zero Action")
+            "${number.call(items, actionParams)} = 0;"
+        }
+    }
 }
 
 @Serializable
@@ -159,4 +236,13 @@ class Assign(
 ) : Action() {
     override fun use(inlineElements: List<String>): String =
         "${inlineElements[0]} = ${inlineElements[1]};"
+
+    override fun buildCall(): InlineItem {
+        return InlineItem(id) { items: InlineItems, actionParams ->
+            val (assignee, assignor) = if (actionParams.size >= 2) {
+                actionParams.map { items[it] ?: error("Parameter with id ${actionParams.first()} does not exist") }
+            } else error("Missing parameter for Assign Action")
+            "${assignee.call(items, actionParams)} = ${assignor.call(items, actionParams)};"
+        }
+    }
 }

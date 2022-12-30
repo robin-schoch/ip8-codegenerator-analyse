@@ -24,7 +24,7 @@ class DSLParser(path: String) {
     }
 
     @OptIn(ExperimentalSerializationApi::class)
-    private val dsl: JSONDSL by lazy {
+    val dsl: JSONDSL by lazy {
         with(javaClass.classLoader.getResourceAsStream(path)) { json.decodeFromStream(this!!) }
     }
 
@@ -33,8 +33,8 @@ class DSLParser(path: String) {
         dsl.properties
     }
 
-    val terms by lazy {
-        dsl.conditions + dsl.conjunctions + dsl.disjunctions
+    val terms: List<ParseableTerm> by lazy {
+        (dsl.conditions + dsl.conjunctions + dsl.disjunctions)
     }
 
 

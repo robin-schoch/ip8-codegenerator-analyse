@@ -10,15 +10,15 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
     public class {{name}}
     {
-    {{#states}}
-        private const string {{name}} = nameOf({{name}});
-    {{/states}}
+    {{#statesDefinition}}
+        private const string {{.}} = nameOf({{.}});
+    {{/statesDefinition}}
 
         private readonly IServiceProvider _serviceProvider;
         private readonly Registry _registry;
         private readonly ILogger _logger;
 
-        private string _currentState = {{initialState.name}};
+        private string _currentState = {{initialState}};
 
         public {{name}}(IServiceProvider serviceProvider, Registry registry, ILogger logger)
         {
@@ -31,9 +31,9 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
         {
             var nextState = _currentState switch
             {
-            {{#states}}
-                {{name}} => {{name}}State();
-            {{/states}}
+            {{#statesDefinition}}
+                {{.}} => {{.}}State();
+            {{/statesDefinition}}
                 _ => throw new ArgumentOutOfRangeException()
             };
 
@@ -44,28 +44,27 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
             _currentState = nextState;
         }
 
-
-
-    {{#states}}
-        private string {{name}}State()
+    {{#stateTransition}}
+        private string {{stateName}}State()
         {
-            {{{stateTransition}}}
+            {{{defaultInvocation}}}
 
-            {{#transitions}}
-                {{#.}}
-                    {{{.}}}
-                {{/.}}
-            {{/transitions}}
+        {{#transitions}}
+            {{#.}}
+                {{{.}}}
+            {{/.}}
+        {{/transitions}}
 
-            return {{name}};
+            return {{stateName}};
         }
-    {{/states}}
+
+    {{/stateTransition}}
+
 
 {{#events}}
-    {{#definition}}
+    {{#.}}
         {{{.}}}
-    {{/definition}}
-
+    {{/.}}
 {{/events}}
     }
 }
