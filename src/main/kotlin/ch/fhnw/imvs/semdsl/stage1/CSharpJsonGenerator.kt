@@ -1,11 +1,7 @@
 package ch.fhnw.imvs.semdsl.stage1
 
-import ch.fhnw.imvs.semdsl.EventWithName
 import ch.fhnw.imvs.semdsl.Generator
-import ch.fhnw.imvs.semdsl.StateWithTransition
-import ch.fhnw.imvs.semdsl.dsl.JSONDSL
-import ch.fhnw.imvs.semdsl.dsl.State
-import ch.fhnw.imvs.semdsl.dsl.StateMachine
+import ch.fhnw.imvs.semdsl.dsl.*
 import com.github.mustachejava.DefaultMustacheFactory
 import java.io.File
 
@@ -13,7 +9,7 @@ object CSharpJsonGenerator : Generator {
 
     private val mustacheFactory by lazy { DefaultMustacheFactory() }
 
-    lateinit var stateMachines: List<ch.fhnw.imvs.semdsl.StateMachineEnriched>
+    lateinit var stateMachines: List<StateMachineEnriched>
     override fun initialise(dsl: JSONDSL) {
         val eventMap = dsl.stateMachines.associateWith { machine ->
             machine.events
@@ -38,7 +34,7 @@ object CSharpJsonGenerator : Generator {
         }
 
         stateMachines =
-            dsl.stateMachines.map { ch.fhnw.imvs.semdsl.StateMachineEnriched(it, stateMap[it]!!, eventMap[it]!!) }
+            dsl.stateMachines.map { StateMachineEnriched(it, stateMap[it]!!, eventMap[it]!!) }
     }
 
     override fun generateRegistry(mustacheTemplatePath: String, outputDir: String) {
@@ -47,7 +43,6 @@ object CSharpJsonGenerator : Generator {
 
     override fun generateStateMachines(mustacheTemplatePath: String, outputDir: String, machines: Set<String>) {
         stateMachines.forEach { data ->
-            println("hallo")
             val mustacheTemplate = mustacheFactory.compile(mustacheTemplatePath)
             File(outputDir).mkdirs()
             File("$outputDir/${data.machine.name}JsonMachine.cs").bufferedWriter()
@@ -65,5 +60,15 @@ object CSharpJsonGenerator : Generator {
         val states: List<StateWithTransition>,
         val events: List<EventWithName>,
         val initialState: State = states.find { it.state.id == machine.initialState }!!.state
+    )
+
+    data class EventWithName(
+        val event: Event,
+        val name: String
+    )
+
+    data class StateWithTransition(
+        val state: State,
+        val transitions: List<Transition>
     )
 }
