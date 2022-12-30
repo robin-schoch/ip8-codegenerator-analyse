@@ -1,11 +1,12 @@
 package ch.fhnw.imvs.semdsl.stage2
 
+import ch.fhnw.imvs.semdsl.Generator
 import ch.fhnw.imvs.semdsl.dsl.JSONDSL
 import ch.fhnw.imvs.semdsl.dsl.StateMachine
 import com.github.mustachejava.DefaultMustacheFactory
 import java.io.File
 
-object CSharpGenerator {
+object CSharpGenerator : Generator {
 
     private val mustacheFactory by lazy { DefaultMustacheFactory() }
 
@@ -33,7 +34,7 @@ object CSharpGenerator {
         get() = _stateMachines.toMap()
 
 
-    fun initialise(dsl: JSONDSL) {
+    override fun initialise(dsl: JSONDSL) {
         with(dsl) {
             addRegistryItems(properties)
             addInlineItems(properties + actions + conditions + conjunctions + disjunctions + events + states + invocations)
@@ -43,7 +44,7 @@ object CSharpGenerator {
         }
     }
 
-    fun generateRegistry(mustacheTemplatePath: String, outputDir: String) {
+    override fun generateRegistry(mustacheTemplatePath: String, outputDir: String) {
         val compiledTemplate = mustacheFactory.compile(mustacheTemplatePath)
         File(outputDir).mkdirs()
         File("$outputDir/registry.cs").bufferedWriter()
@@ -62,10 +63,14 @@ object CSharpGenerator {
             .use { compiledTemplate.execute(it, stateMachineTemplate) }
     }
 
-    fun generateStateMachines(mustacheTemplatePath: String, outputDir: String) {
-        stateMachines.values.map { StateMachineTemplate(it) }.forEach {
+    override fun generateStateMachines(mustacheTemplatePath: String, outputDir: String, machines: Set<String>) {
+        stateMachines.values.filter { machines.contains(it.name) }.map { StateMachineTemplate(it) }.forEach {
             generateStateMachine(it, mustacheTemplatePath, outputDir)
         }
+    }
+
+    override fun listMachines(): Set<String> {
+        return this.stateMachines.values.map { it.name }.toSet()
     }
 
     private fun addRegistryItems(items: List<RegistrableItem>) {
