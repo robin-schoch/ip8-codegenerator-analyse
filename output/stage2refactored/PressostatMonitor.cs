@@ -50,7 +50,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string IdleState()
         {
-            
+
                     _registry.Variable_PressostatMonitor_IsRequestingHeatPumpMonitoringStop = _registry.Constant_False;
                     if((_registry.Variable_PressostatPauseMonitor_IsRequestingPauseCountReset  == _registry.Variable_PressostatPauseMonitor_IsRequestingPauseCountReset)) {
     _registry.Variable_PressostatMonitor_PauseCount = 0;
@@ -71,7 +71,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string DebounceState()
         {
-            
+
                     _registry.Variable_PressostatMonitor_IsRequestingHeatPumpMonitoringStop = _registry.Constant_False;
                     if((_registry.Variable_PressostatPauseMonitor_IsRequestingPauseCountReset  == _registry.Variable_PressostatPauseMonitor_IsRequestingPauseCountReset)) {
     _registry.Variable_PressostatMonitor_PauseCount = 0;
@@ -106,7 +106,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string CriticalState()
         {
-            
+
                     _registry.Variable_PressostatMonitor_IsRequestingHeatPumpMonitoringStop = _registry.Constant_False;
                     if((_registry.Variable_PressostatPauseMonitor_IsRequestingPauseCountReset  == _registry.Variable_PressostatPauseMonitor_IsRequestingPauseCountReset)) {
     _registry.Variable_PressostatMonitor_PauseCount = 0;
@@ -134,7 +134,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string PauseState()
         {
-            
+
                     _registry.Variable_PressostatMonitor_IsRequestingHeatPumpMonitoringStop = _registry.Constant_False;
                     if((_registry.Variable_PressostatPauseMonitor_IsRequestingPauseCountReset  == _registry.Variable_PressostatPauseMonitor_IsRequestingPauseCountReset)) {
     _registry.Variable_PressostatMonitor_PauseCount = 0;
@@ -164,7 +164,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string MalfunctionState()
         {
-            
+
                     _registry.Variable_PressostatMonitor_IsRequestingHeatPumpMonitoringStop = _registry.Constant_False;
                     if((_registry.Variable_PressostatPauseMonitor_IsRequestingPauseCountReset  == _registry.Variable_PressostatPauseMonitor_IsRequestingPauseCountReset)) {
     _registry.Variable_PressostatMonitor_PauseCount = 0;

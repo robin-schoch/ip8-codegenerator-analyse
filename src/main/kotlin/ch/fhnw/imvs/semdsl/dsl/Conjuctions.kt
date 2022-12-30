@@ -1,6 +1,5 @@
 package ch.fhnw.imvs.semdsl.dsl
 
-import ch.fhnw.imvs.semdsl.stage2.Context
 import ch.fhnw.imvs.semdsl.stage2.InlineItem
 import ch.fhnw.imvs.semdsl.stage2.InlineableItem
 import kotlinx.serialization.Serializable
@@ -9,16 +8,10 @@ typealias ConjunctionId = String
 
 @Serializable
 data class Conjunction(
-    override val id: ConditionId,
+    val id: ConditionId,
     val name: String,
     val terms: List<String>
-) : ParseableTerm, InlineableItem {
-    context(Context)
-    override fun use(): String = terms
-        .map { inlineElements[it]!! }
-        .joinToString(separator = " && ", prefix = "(", postfix = ")") { it }
-
-    override fun allDependencyParsed(parsedElements: Set<String>) = parsedElements.containsAll(terms)
+) : InlineableItem {
     override fun getKey(): String {
         return id
     }
@@ -29,5 +22,4 @@ data class Conjunction(
                 .joinToString(separator = " && ", prefix = "(", postfix = ")") { it.call(items, actionParams) }
         }
     }
-
 }

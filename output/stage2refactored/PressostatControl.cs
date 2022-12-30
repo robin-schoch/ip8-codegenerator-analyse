@@ -46,7 +46,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string IdleState()
         {
-            
+
                     _registry.Variable_PressostatControl_IsRequestingHeatPumpMonitoringStop = _registry.Constant_False;
 
                 if (Event8a44a3ac-841a-42d3-a917-720facc8c3c0())
@@ -66,7 +66,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string PauseState()
         {
-            
+
                     _registry.Variable_PressostatControl_IsRequestingHeatPumpMonitoringStop = _registry.Constant_False;
 
                 if (Event8a44a3ac-841a-42d3-a917-720facc8c3c0())
@@ -94,7 +94,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string Emergency_OffState()
         {
-            
+
                     _registry.Variable_PressostatControl_IsRequestingHeatPumpMonitoringStop = _registry.Constant_False;
 
 

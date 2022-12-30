@@ -1,6 +1,9 @@
 package ch.fhnw.imvs.semdsl.dsl
 
-import ch.fhnw.imvs.semdsl.stage2.*
+import ch.fhnw.imvs.semdsl.stage2.StateMachinableItem
+import ch.fhnw.imvs.semdsl.stage2.StateMachineItem
+import ch.fhnw.imvs.semdsl.stage2.TransitionItem
+import ch.fhnw.imvs.semdsl.stage2.TransitionableItem
 import kotlinx.serialization.Serializable
 
 
@@ -47,30 +50,6 @@ data class Transition(
     override fun buildTransition(): TransitionItem {
         return TransitionItem(id, source)
     }
-
-    context(Context)
-    fun use(): List<String> {
-
-        if (inlineInvocations().isEmpty() && stateContext[target] == null) {
-            return listOf()
-        }
-
-        return """
-       if (${eventContext[event]!!.use})
-       {
-           ${inlineInvocations()}
-           ${stateContext[target].let { if (it != null) "return $it;" else "" }}
-       }
-    """.trimIndent().split("\n")
-    }
-
-
-    context(Context)
-    private fun inlineInvocations() =
-        invocations.fold("") { acc, it ->
-            """
-           ${inlineElements[it]}""" + acc
-        }
 
     override fun getKey(): String {
         return id

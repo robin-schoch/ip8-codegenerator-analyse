@@ -58,7 +58,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string IdleState()
         {
-            
+
                     // TODO implement templates
                     _registry.Variable_HeatPumpControl_IsRequestingVentilationMonitoringStart = _registry.Constant_False;
 
@@ -99,7 +99,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string NormalState()
         {
-            
+
                     // TODO implement templates
                     _registry.Variable_HeatPumpControl_IsRequestingVentilationMonitoringStart = _registry.Constant_False;
 
@@ -140,7 +140,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string Critical_1State()
         {
-            
+
                     // TODO implement templates
                     _registry.Variable_HeatPumpControl_IsRequestingVentilationMonitoringStart = _registry.Constant_False;
 
@@ -199,7 +199,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string Critical_2State()
         {
-            
+
                     // TODO implement templates
                     _registry.Variable_HeatPumpControl_IsRequestingVentilationMonitoringStart = _registry.Constant_False;
 
@@ -260,7 +260,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string Critical_3State()
         {
-            
+
                     // TODO implement templates
                     _registry.Variable_HeatPumpControl_IsRequestingVentilationMonitoringStart = _registry.Constant_False;
 
@@ -312,7 +312,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string DefrostState()
         {
-            
+
                     // TODO implement templates
                     _registry.Variable_HeatPumpControl_IsRequestingVentilationMonitoringStart = _registry.Constant_False;
 
@@ -347,7 +347,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string Drip_offState()
         {
-            
+
                     // TODO implement templates
                     _registry.Variable_HeatPumpControl_IsRequestingVentilationMonitoringStart = _registry.Constant_False;
 
@@ -384,7 +384,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string PauseState()
         {
-            
+
                     // TODO implement templates
                     _registry.Variable_HeatPumpControl_IsRequestingVentilationMonitoringStart = _registry.Constant_False;
 
@@ -409,7 +409,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string MalfunctionState()
         {
-            
+
                     // TODO implement templates
                     _registry.Variable_HeatPumpControl_IsRequestingVentilationMonitoringStart = _registry.Constant_False;
 

@@ -40,9 +40,6 @@ data class ParameterWithProperty(
 )
 
 
-typealias StateMachineId = String
-
-
 @Serializable
 data class Type(
     val id: String,

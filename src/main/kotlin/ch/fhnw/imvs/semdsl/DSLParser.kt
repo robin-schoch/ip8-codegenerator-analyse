@@ -33,11 +33,6 @@ class DSLParser(path: String) {
         dsl.properties
     }
 
-    val terms: List<ParseableTerm> by lazy {
-        (dsl.conditions + dsl.conjunctions + dsl.disjunctions)
-    }
-
-
     val actions by lazy {
         dsl.actions
     }

@@ -52,7 +52,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string Zuluft_heizen___Speicher_laden__A_State()
         {
-            
+
 
                 if (Event0f254271-f87b-4ea9-b1ab-39ca36d3562a())
                 {
@@ -72,7 +72,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string Zuluft_heizen___Speicher_Bypass__B_State()
         {
-            
+
 
                 if (Event6700be5e-1f0b-437e-b3cd-814f32e1e381())
                 {
@@ -92,7 +92,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string Zuluft_Bypass___Speicher_laden__C_State()
         {
-            
+
 
                 if (Event0f254271-f87b-4ea9-b1ab-39ca36d3562a())
                 {
@@ -118,7 +118,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string Zuluft_Bypass___Speicher_Bypass__D_State()
         {
-            
+
 
                 if (Event6700be5e-1f0b-437e-b3cd-814f32e1e381())
                 {
@@ -144,7 +144,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string Zuluft_k_hlen___Speicher_laden__E_State()
         {
-            
+
 
                 if (Event0f254271-f87b-4ea9-b1ab-39ca36d3562a())
                 {
@@ -164,7 +164,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string Zuluft_k_hlen___Speicher_Bypass__F_State()
         {
-            
+
 
                 if (Event6700be5e-1f0b-437e-b3cd-814f32e1e381())
                 {

@@ -32,7 +32,6 @@ sealed class Action : InlineableItem {
     abstract val parameters: List<ParameterId>
     abstract val constraints: List<List<String>>
 
-    open fun use(inlineElements: List<String>): String = ""
     override fun getKey(): String {
         return id
     }
@@ -48,7 +47,7 @@ data class Template(
     override val parameters: List<ParameterId>,
     override val constraints: List<List<String>>
 ) : Action() {
-    override fun use(inlineElements: List<String>): String = "TODO()"
+
     override fun buildCall(): InlineItem {
         return InlineItem(id) { _, _ -> "// TODO implement templates" }
     }
@@ -65,8 +64,6 @@ class StartTimerActionHandler(
     override val parameters: List<ParameterId>,
     override val constraints: List<List<String>>
 ) : Action() {
-    override fun use(inlineElements: List<String>): String =
-        "${inlineElements[0]}.Start()"
 
     override fun buildCall(): InlineItem {
         return InlineItem(id) { items: InlineItems, actionParams ->
@@ -88,12 +85,6 @@ class InvokeIf(
     override val parameters: List<ParameterId>,
     override val constraints: List<List<String>>
 ) : Action() {
-    override fun use(inlineElements: List<String>): String =
-        """
-            if(${inlineElements[0]}) {
-                ${inlineElements[1]}
-            }
-        """.trimIndent()
 
     override fun buildCall(): InlineItem {
         return InlineItem(id) { items: InlineItems, actionParams ->
@@ -119,8 +110,6 @@ class Subtract(
     override val parameters: List<ParameterId>,
     override val constraints: List<List<String>>
 ) : Action() {
-    override fun use(inlineElements: List<String>): String =
-        "${inlineElements[0]} -= ${inlineElements[1]};"
 
     override fun buildCall(): InlineItem {
         return InlineItem(id) { items: InlineItems, actionParams ->
@@ -142,9 +131,6 @@ class Add(
     override val parameters: List<ParameterId>,
     override val constraints: List<List<String>>
 ) : Action() {
-    override fun use(inlineElements: List<String>): String =
-        "${inlineElements[0]} += ${inlineElements[1]};"
-
     override fun buildCall(): InlineItem {
         return InlineItem(id) { items: InlineItems, actionParams ->
             val (addee, addor) = if (actionParams.size >= 2) {
@@ -165,8 +151,6 @@ class Decrement(
     override val parameters: List<ParameterId>,
     override val constraints: List<List<String>>
 ) : Action() {
-    override fun use(inlineElements: List<String>): String =
-        "${inlineElements[0]}--;"
 
     override fun buildCall(): InlineItem {
         return InlineItem(id) { items: InlineItems, actionParams ->
@@ -188,8 +172,6 @@ class Increment(
     override val parameters: List<ParameterId>,
     override val constraints: List<List<String>>
 ) : Action() {
-    override fun use(inlineElements: List<String>): String =
-        "${inlineElements[0]}++;"
 
     override fun buildCall(): InlineItem {
         return InlineItem(id) { items: InlineItems, actionParams ->
@@ -211,8 +193,6 @@ class Zero(
     override val parameters: List<ParameterId>,
     override val constraints: List<List<String>>
 ) : Action() {
-    override fun use(inlineElements: List<String>): String =
-        "${inlineElements[0]} = 0;"
 
     override fun buildCall(): InlineItem {
         return InlineItem(id) { items: InlineItems, actionParams ->
@@ -234,8 +214,6 @@ class Assign(
     override val parameters: List<ParameterId>,
     override val constraints: List<List<String>>
 ) : Action() {
-    override fun use(inlineElements: List<String>): String =
-        "${inlineElements[0]} = ${inlineElements[1]};"
 
     override fun buildCall(): InlineItem {
         return InlineItem(id) { items: InlineItems, actionParams ->

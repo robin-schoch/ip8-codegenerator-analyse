@@ -15,8 +15,7 @@ data class Invocation(
     val action: ActionId,
     val name: String
 ) : InlineableItem {
-
-    fun allDependencyParsed(parsedElements: Set<String>) = parsedElements.containsAll(parameters.map { it.property })
+    
     override fun getKey(): String {
         return id
     }

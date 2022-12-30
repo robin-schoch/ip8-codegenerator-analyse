@@ -46,7 +46,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string IdleState()
         {
-            
+
                     _registry.Variable_PressostatPauseMonitor_IsRequestingPauseCountReset = _registry.Constant_False;
 
                 if (Eventf38d9bb9-5a8f-4170-9bb5-3bc81c0ffcb8())
@@ -61,7 +61,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string ActiveState()
         {
-            
+
                     _registry.Variable_PressostatPauseMonitor_IsRequestingPauseCountReset = _registry.Constant_False;
 
                 if (Event8f099316-96dc-4d46-9702-0814ac17a61e())
@@ -84,7 +84,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string MalfunctionState()
         {
-            
+
                     _registry.Variable_PressostatPauseMonitor_IsRequestingPauseCountReset = _registry.Constant_False;
 
 

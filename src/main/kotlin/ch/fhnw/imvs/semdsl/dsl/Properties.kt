@@ -23,7 +23,7 @@ enum class PropertySource(val formattedName: String) {
 
 
 @Serializable
-sealed class Property : RegistryDestination, RegistrableItem, InlineableItem {
+sealed class Property : RegistrableItem, InlineableItem {
     abstract val id: PropertyId
     abstract val name: String
     abstract val hardcoded: Boolean
@@ -32,54 +32,19 @@ sealed class Property : RegistryDestination, RegistrableItem, InlineableItem {
     abstract val unit: String?
     abstract val value: Any?
 
-
     override fun getKey(): String {
         return id
     }
 
-    override fun registryDeclaration(): String {
-        return when (source) {
-            PropertySource.CONSTANT -> constantStatement() // template
-            PropertySource.SENSOR -> sensorStatement()
-            PropertySource.VARIABLE -> variableStatement()
-            PropertySource.TIMER -> timerStatement()
-            PropertySource.CONFIG -> configStatement()
-        }
-    }
-
     protected fun initialValue() = if (value != null) " = $value;" else ""
     open fun cleanName() = "${source.formattedName}_$name"
-
-    abstract fun allDependencyParsed(parsedElements: Set<String>): Boolean
-
-    open fun constantStatement(): String {
-        error("property cannot be used as a constant: $type")
-    }
-
-    open fun variableStatement(): String {
-        error("property cannot be used as a variable: $type")
-    }
-
-    open fun sensorStatement(): String {
-        error("property cannot be used as a sensor: $type ${this.javaClass.simpleName}")
-    }
-
-
-    open fun timerStatement(): String {
-        error("property cannot be used as a timer: $type")
-    }
-
-
-    open fun configStatement(): String {
-        error("property cannot be used as a config: $type")
-    }
 
     open fun use(): String {
         return "_registry.${source.formattedName}_$name"
     }
 
     override fun buildCall(): InlineItem {
-        return InlineItem(id) { _, actionParams -> use() }
+        return InlineItem(id) { _, _ -> use() }
     }
 }
 
@@ -97,11 +62,6 @@ class UIntProperty(
 ) : Property() {
 
     private val statement = "public uint ${cleanName()} { get; set; } ${initialValue()}"
-    override fun configStatement() = statement
-    override fun variableStatement() = statement
-
-    override fun allDependencyParsed(parsedElements: Set<String>) = true
-
 
     override fun buildEntry(): RegistryItem {
         return RegistryItem(id) { _ -> statement }
@@ -121,9 +81,6 @@ class IntProperty(
     override val unit: String? = null,
 ) : Property() {
     private val statement = "public int ${cleanName()} { get; set; } ${initialValue()}"
-    override fun constantStatement() = statement
-    override fun allDependencyParsed(parsedElements: Set<String>) = true
-    override fun variableStatement() = statement
 
     override fun buildEntry(): RegistryItem {
         return RegistryItem(id) { _ -> statement }
@@ -146,13 +103,6 @@ class BooleanProperty(
 
 
     private val statement = "public bool ${source.formattedName}_$name} { get; set; } ${initialValue()}"
-    override fun configStatement() = statement
-    override fun allDependencyParsed(parsedElements: Set<String>) = true
-    override fun constantStatement() = statement
-
-    override fun sensorStatement() = statement
-
-    override fun variableStatement() = statement
     override fun buildEntry(): RegistryItem {
         return RegistryItem(id) { _ -> statement }
     }
@@ -172,11 +122,6 @@ class DoubleProperty(
     override val unit: String? = null,
 ) : Property() {
     private val statement = "public double ${cleanName()} { get; set; } ${initialValue()}"
-
-    override fun allDependencyParsed(parsedElements: Set<String>) = true
-    override fun configStatement() = statement
-    override fun sensorStatement() = statement
-
     override fun buildEntry(): RegistryItem {
         return RegistryItem(id) { _ -> statement }
     }
@@ -197,8 +142,6 @@ class StringProperty(
 ) : Property() {
 
     private val statement = "public String ${cleanName()} { get; set; } ${initialValue()}"
-    override fun allDependencyParsed(parsedElements: Set<String>) = true
-
     override fun buildEntry(): RegistryItem {
         return RegistryItem(id) { _ -> statement }
     }
@@ -216,12 +159,6 @@ class ListProperty(
     override val value: List<String>? = listOf(),
     override val unit: String? = null,
 ) : Property() {
-
-    override fun constantStatement() = "TODO()"
-    override fun allDependencyParsed(parsedElements: Set<String>) = parsedElements.containsAll(value ?: listOf())
-
-    override fun configStatement() = "TODO()"
-
     override fun buildEntry(): RegistryItem {
         return RegistryItem(id) { _ -> "// TODO implement list properties" }
     }
@@ -239,12 +176,6 @@ class DateTimeProperty(
     override val value: String? = LocalDateTime.now().toString(),
     override val unit: String? = null,
 ) : Property() {
-
-    override fun constantStatement() = "TODO()"
-    override fun allDependencyParsed(parsedElements: Set<String>) = true
-
-    override fun sensorStatement() = "TODO()"
-
     override fun buildEntry(): RegistryItem {
         return RegistryItem(id) { _ -> "// TODO implement date time properties" }
     }
@@ -264,8 +195,6 @@ class TimerProperty(
 ) : Property() {
 
     val statement = "public ITimer ${source.formattedName}_$name { get; } "
-    override fun allDependencyParsed(parsedElements: Set<String>) = true
-    override fun timerStatement() = statement
 
     override fun buildEntry(): RegistryItem {
         return RegistryItem(id) { _ -> statement }
@@ -294,9 +223,6 @@ class HeapPumpNowProperty(
 ) : Property() {
 
     val statement = "public HeapPump ${cleanName()} { get; set; }"
-    override fun allDependencyParsed(parsedElements: Set<String>) = true
-    override fun variableStatement() = statement
-    override fun constantStatement() = statement
 
     override fun buildEntry(): RegistryItem {
         return RegistryItem(id) { _ -> statement }

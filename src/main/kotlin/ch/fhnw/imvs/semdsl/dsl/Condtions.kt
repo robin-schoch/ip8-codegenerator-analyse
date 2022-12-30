@@ -1,6 +1,5 @@
 package ch.fhnw.imvs.semdsl.dsl
 
-import ch.fhnw.imvs.semdsl.stage2.Context
 import ch.fhnw.imvs.semdsl.stage2.InlineItem
 import ch.fhnw.imvs.semdsl.stage2.InlineableItem
 import kotlinx.serialization.*
@@ -12,22 +11,12 @@ typealias ConditionId = String
 @OptIn(ExperimentalSerializationApi::class)
 @Serializable
 @JsonClassDiscriminator("operator")
-sealed class Condition() : ParseableTerm, InlineableItem {
-    abstract override val id: ConditionId
+sealed class Condition() : InlineableItem {
+    abstract val id: ConditionId
     abstract val left: PropertyId
     abstract val operator: String
     abstract val right: PropertyId
     abstract val name: String
-
-    context(Context)
-    fun createCondition(signe: String): String {
-        if (inlineElements.containsKey(left) && inlineElements.containsKey(right)) {
-            return "(${inlineElements[left]!!}  $signe ${inlineElements[right]!!})"
-
-        }
-        return ""
-    }
-
     override fun getKey(): String {
         return id
     }
@@ -39,10 +28,6 @@ sealed class Condition() : ParseableTerm, InlineableItem {
             "(${leftItem.call(items, actionParams)}  $operator ${rightItem.call(items, actionParams)})"
         }
     }
-
-
-    override fun allDependencyParsed(parsedElements: Set<String>) =
-        parsedElements.containsAll(listOf(left, right))
 }
 
 @Serializable
@@ -53,10 +38,7 @@ class EqualCondition(
     override val operator: String,
     override val right: PropertyId,
     override val name: String
-) : Condition() {
-    context(Context)
-    override fun use() = createCondition("==")
-}
+) : Condition()
 
 @Serializable
 @SerialName(">=")
@@ -66,10 +48,7 @@ class GreatThenOrEqualCondition(
     override val operator: String,
     override val right: PropertyId,
     override val name: String
-) : Condition() {
-    context(Context)
-    override fun use() = createCondition(">=")
-}
+) : Condition()
 
 @Serializable
 @SerialName(">")
@@ -79,10 +58,7 @@ class GreatThenCondition(
     override val operator: String,
     override val right: PropertyId,
     override val name: String
-) : Condition() {
-    context(Context)
-    override fun use() = createCondition(">")
-}
+) : Condition()
 
 @Serializable
 @SerialName("<")
@@ -92,10 +68,7 @@ class LessThenCondition(
     override val operator: String,
     override val right: PropertyId,
     override val name: String
-) : Condition() {
-    context(Context)
-    override fun use() = createCondition("<")
-}
+) : Condition()
 
 @Serializable
 @SerialName("<=")
@@ -105,7 +78,4 @@ class LessOrEqualThenCondition(
     override val operator: String,
     override val right: PropertyId,
     override val name: String
-) : Condition() {
-    context(Context)
-    override fun use() = createCondition("<=")
-}
+) : Condition()

@@ -2,6 +2,8 @@ package ch.fhnw.imvs.semdsl.dsl
 
 import kotlinx.serialization.Serializable
 
+typealias StateMachineId = String
+
 @Serializable
 data class StateMachine(
     val id: StateMachineId,
