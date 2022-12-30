@@ -122,14 +122,15 @@ object CSharpGenerator {
 
     data class TransitionTemplate(val state: String) {
 
-        val stateName = stateMachineItems[state]?.let { it.definition(inlineItems, stateMachineItems).first() }
+        val stateName = stateMachineItems[state]?.definition?.let { it(inlineItems, stateMachineItems) }?.first()
             ?: error("Missing from state")
 
         val defaultInvocation = inlineItems[state]?.let { it.call(inlineItems, listOf()) } ?: ""
 
-        val transitions = (transitionItems[state] ?: listOf()).also { println(it) }
-            .map { stateMachineItems[it.hash] ?: error("Missing transition") }.also { println("") }
+        val transitions = (transitionItems[state] ?: listOf())
+            .map { stateMachineItems[it.hash] ?: error("Missing transition") }
             .map { it.definition(inlineItems, stateMachineItems) }
+
     }
 
 }

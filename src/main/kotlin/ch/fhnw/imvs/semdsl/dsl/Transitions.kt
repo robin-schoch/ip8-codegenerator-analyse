@@ -17,7 +17,6 @@ data class Transition(
 
     override fun buildStateMachineEntry(): StateMachineItem {
         return StateMachineItem(id) { items, stateMachineItems ->
-            println("called")
             val callableEvent = items[event] ?: error("Event does not exist")
             val callableTarget = stateMachineItems[target]
 
@@ -29,7 +28,9 @@ data class Transition(
                 $it""" + acc
                     }
 
-            val x = """
+            if (callableInvocations.isNullOrBlank() && callableTarget == null) return@StateMachineItem listOf()
+
+            """
             if (${callableEvent.call(items, listOf())})
             {
                 $callableInvocations
@@ -40,9 +41,6 @@ data class Transition(
             }
             }
             """.trimIndent().split("\n")
-            println(x)
-
-            x
         }
     }
 
