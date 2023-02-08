@@ -1,12 +1,16 @@
+using System;
+using Swissframe.Thermos.Common.Contract;
+using Swissframe.Thermos.Control.Contract.HeatPump;
+
 namespace Swissframe.Util.StateEventEditor.Common.Test
 {
-    class Registry
+    public class Registry
     {
         public double Config_ClimateControlConfiguration__ReservoirTemperatureAboveThresholdDegreesCelsius { get; set; } 
         public double Config_ClimateControlConfiguration__ReservoirTemperatureBelowThresholdDegreesCelsius { get; set; } 
         public double Config_ClimateControlConfiguration__ExhaustAirTemperatureBelowThresholdDegreesCelsius { get; set; } 
         public double Config_ClimateControlConfiguration__ExhaustAirTemperatureAboveThresholdDegreesCelsius { get; set; } 
-        // TODO implement list properties
+        // TODO implement list properties GeneralConfiguration::SystemType a51a258a-f263-40c9-b14e-b7c8b65b4525
         public uint Config_HeatPumpControlConfiguration__Critical1MaximumTimeMinutes { get; set; } 
         public uint Config_HeatPumpControlConfiguration__Critical2MaximumTimeMinutes { get; set; } 
         public uint Config_HeatPumpControlConfiguration__DripOffTimeMinutes { get; set; } 
@@ -34,16 +38,16 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
         public uint Config_PressostatMonitorConfiguration__MaximumPauseDurationMinutes { get; set; } 
         public uint Config_PressostatPauseMonitorConfiguration__MaximumActiveDurationHours { get; set; } 
         public uint Config_PressostatPauseMonitorConfiguration__MaximumPauseCount { get; set; } 
-        // TODO implement date time properties
+        public DateTime Constant_DateTimeNow { get; set;} 
         public bool Constant_True { get; set; } 
         public bool Constant_False { get; set; } 
-        // TODO implement list properties
-        // TODO implement list properties
-        // TODO implement list properties
-        public HeatPump Constant_HeatPumpControlVentilationRequest__None_ { get; set; }
-        public HeatPump Constant_HeatPumpControlVentilationRequest__Level2_ { get; set; }
-        public HeatPump Constant_HeatPumpControlVentilationRequest__Level3_ { get; set; }
-        public HeatPump Constant_HeatPumpControlVentilationRequest__DefrostOrDripOff_ { get; set; }
+        // TODO implement list properties SystemType (Thermos2) 9b8af4c5-9ced-42ac-9f48-2816caa49d1a
+        // TODO implement list properties SystemType (Thermos3) b2144c0f-b4cb-4fc8-aacf-5b3df107d6da
+        // TODO implement list properties SystemType (Varios) 4f27400f-9587-492b-ad70-9093cd2b41ae
+        public HeatPumpControlVentilationRequest Constant_HeatPumpControlVentilationRequest__None_ { get; set; }
+        public HeatPumpControlVentilationRequest Constant_HeatPumpControlVentilationRequest__Level2_ { get; set; }
+        public HeatPumpControlVentilationRequest Constant_HeatPumpControlVentilationRequest__Level3_ { get; set; }
+        public HeatPumpControlVentilationRequest Constant_HeatPumpControlVentilationRequest__DefrostOrDripOff_ { get; set; }
         public double Sensor_ReadEvaporatorTemperature { get; set; } 
         public double Sensor_ReadReservoirTemperature { get; set; } 
         public double Sensor_ReadExhaustAirAfterHeatExchangerTemperature { get; set; } 
@@ -60,7 +64,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
         public double Sensor_ReadHighPressureSensorPressure { get; set; } 
         public double Sensor_ReadLowPressureSensorPressure { get; set; } 
         public double Sensor_ReadFlowHeaterDesiredTemp { get; set; } 
-        // TODO implement date time properties
+        public DateTime Sensor_ReadControlPanelAwayUntil { get; set;} 
         public double Sensor_ReadCompressorTemperature { get; set; } 
         public double Sensor_ReadColdwaterSupplyJouliaThermometer { get; set; } 
         public double Sensor_ReadColdwaterSupplyThermosThermometer { get; set; } 
@@ -81,7 +85,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
         public ITimer Timer_HeatPumpControl_TimerCritical1 { get; } 
         public ITimer Timer_HeatPumpControl_TimerCritical2 { get; } 
         public ITimer Timer_HeatPumpControl_TimerDripOff { get; } 
-        public HeatPump Variable_HeatPumpControl_VentilationRequest { get; set; }
+        public HeatPumpControlVentilationRequest Variable_HeatPumpControl_VentilationRequest { get; set; }
         public bool Variable_HeatPumpControl_IsRequestingHeatPumpMonitoring { get; set; }  = false;
         public bool Variable_HeatPumpControl_IsRequestingVentilationMonitoringStart { get; set; }  = false;
         public bool Variable_VentilationPauseMonitor_IsDetectingMalfunction { get; set; }  = false;

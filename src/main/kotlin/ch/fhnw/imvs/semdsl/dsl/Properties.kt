@@ -163,7 +163,7 @@ class ListProperty(
     override val unit: String? = null,
 ) : Property() {
     override fun buildEntry(): RegistryItem {
-        return RegistryItem(id) { _ -> "// TODO implement list properties" }
+        return RegistryItem(id) { _ -> "// TODO implement list properties $name $id" }
     }
 }
 
@@ -179,8 +179,10 @@ class DateTimeProperty(
     override val value: String? = LocalDateTime.now().toString(),
     override val unit: String? = null,
 ) : Property() {
+
+    private val statement = "public DateTime ${source.formattedName}_$name { get; set;} "
     override fun buildEntry(): RegistryItem {
-        return RegistryItem(id) { _ -> "// TODO implement date time properties" }
+        return RegistryItem(id) { _ -> statement }
     }
 }
 
@@ -225,7 +227,7 @@ class HeatPumpNowProperty(
     override val unit: String = LocalDateTime.now().toString(),
 ) : Property() {
 
-    val statement = "public HeatPump ${cleanName()} { get; set; }"
+    val statement = "public HeatPumpControlVentilationRequest ${cleanName()} { get; set; }"
 
     override fun buildEntry(): RegistryItem {
         return RegistryItem(id) { _ -> statement }
