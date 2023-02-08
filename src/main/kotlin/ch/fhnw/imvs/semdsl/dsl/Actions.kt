@@ -77,7 +77,7 @@ class StartTimerActionHandler(
 
 @Serializable
 @SerialName("6d9b3eb6-eda1-44a6-8931-5cda4a9beb51")
-class GetTimerValueActionHandler(
+class GetTimerMinuteValueActionHandler(
     override val id: ActionId,
     override val name: String,
     override val description: String,
@@ -91,7 +91,28 @@ class GetTimerValueActionHandler(
             val timer = if (actionParams.isNotEmpty()) {
                 items[actionParams.first()] ?: error("Parameter with id ${actionParams.first()} does not exist")
             } else error("Missing parameter for GetTimerValueActionHandler")
-            "${timer.call(items, actionParams)}.ElapsedTime.TotalMinutes;".also { println(it) }
+            "${timer.call(items, actionParams)}.ElapsedTime.TotalMinutes".also { println(it) }
+        }
+    }
+}
+
+@Serializable
+@SerialName("470c6d4f-9ede-4caa-81c1-de8436c71e34")
+class GetTimerSecondValueActionHandler(
+    override val id: ActionId,
+    override val name: String,
+    override val description: String,
+    override val hardcoded: Boolean,
+    override val parameters: List<ParameterId>,
+    override val constraints: List<List<String>>
+) : Action() {
+
+    override fun buildCall(): InlineItem {
+        return InlineItem(id) { items: InlineItems, actionParams ->
+            val timer = if (actionParams.isNotEmpty()) {
+                items[actionParams.first()] ?: error("Parameter with id ${actionParams.first()} does not exist")
+            } else error("Missing parameter for GetTimerValueActionHandler")
+            "${timer.call(items, actionParams)}.ElapsedTime.TotalSeconds".also { println(it) }
         }
     }
 }

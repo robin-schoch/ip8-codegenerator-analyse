@@ -230,7 +230,17 @@
     },
     {
       "id": "6d9b3eb6-eda1-44a6-8931-5cda4a9beb51",
-      "name": "TimerActionHandler.GetNumericValue",
+      "name": "TimerActionHandler.GetMinuteValue",
+      "description": "",
+      "hardcoded": true,
+      "parameters": [
+        "6c735380-e4c9-42f4-9a55-f975ff7f6c05"
+      ],
+      "constraints": []
+    },
+    {
+      "id": "470c6d4f-9ede-4caa-81c1-de8436c71e34",
+      "name": "TimerActionHandler.GetSecondValue",
       "description": "",
       "hardcoded": true,
       "parameters": [
@@ -362,7 +372,7 @@
     },
     {
       "id": "399acc03-b4ce-435e-be74-f3d077a642f5",
-      "left": "f8c1da7b-7588-4e1f-8479-9c6d8636a8c6",
+      "left": "2d83cf63-231b-4b5e-a97f-84f3813b2602",
       "operator": ">=",
       "right": "2d83cf63-231b-4b5e-a97f-84f3813b2602",
       "name": ""
@@ -905,7 +915,7 @@
         }
       ],
       "action": "6d9b3eb6-eda1-44a6-8931-5cda4a9beb51",
-      "name": "PressostatMonitor_OverpressureCount = 1"
+      "name": "PressostatMonitor_Debounce.ElapsedTime.TotalMinutes"
     },
     {
       "id": "7a8809d6-c926-409e-bff8-f354f0d92281",

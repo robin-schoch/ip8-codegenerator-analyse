@@ -86,7 +86,9 @@ object CSharpGenerator : Generator {
     }
 
     private fun addInlineItems(items: List<InlineableItem>) {
-        items.forEach { _inlineItems[it.getKey()] = it.buildCall() }
+        items.forEach {
+            _inlineItems[it.getKey()] = it.buildCall()
+        }
     }
 
     private fun addStateMachineItems(items: List<StateMachinableItem>) {

@@ -190,7 +190,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
         } 
         private bool Eventaef06d5e()
         {
-            var result = (_registry.Timer_PressostatMonitor_Debounce  >= _registry.Timer_PressostatMonitor_Debounce);
+            var result = (_registry.Variable_PressostatMonitor_OverpressureCount.ElapsedTime.TotalMinutes  >= _registry.Variable_PressostatMonitor_OverpressureCount.ElapsedTime.TotalMinutes);
             _logger.LogDebug("Event: Eventaef06d5e() evaluates to {result}", result);
             return result;
         } 
