@@ -8,13 +8,17 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-
 fun main() {
     val presso: PressostatActor
     val timer: TimerActor
     with(Dispatcher) {
         presso = PressostatActor()
         timer = TimerActor(TimerState(1000))
+    }
+    val a = listOf(1, 2, 3, 4)
+    'a' to 'b'
+    for (v in a) {
+        println(v)
     }
 
     runBlocking {

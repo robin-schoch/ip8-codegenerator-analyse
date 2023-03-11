@@ -1,0 +1,1 @@
+data class {{#camelcase}}{{name}}{{/camelcase}}({{#parameters}}val {{name}} : {{type}} = {{{default}}}, {{/parameters}}) : {{#camelcase}}{{machineState}}{{/camelcase}}()

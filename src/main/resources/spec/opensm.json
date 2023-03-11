@@ -1,0 +1,71 @@
+{
+  "version": "0.0.8",
+  "stateMachines": {
+    "waterModel": {
+      "initialState": "states/liquide",
+      "states": [
+        "states/liquide",
+        "states/frozen"
+      ],
+      "events": [
+        "events/onMelted",
+        "events/onFrozen"
+      ],
+      "effects": [
+        "effects/logMelting",
+        "effects/logAccident",
+        "effects/logFreeze"
+      ]
+    }
+  },
+  "states": {
+    "frozen": {
+      "description": "water is frozen",
+      "parameters": [
+        "parameters/temperatur",
+        "parameters/label"
+      ]
+    },
+    "liquide": {
+      "description": "water is liquide"
+    }
+  },
+  "events": {
+    "onFrozen": {
+      "parameters": [
+        "parameters/temperatur",
+        "parameters/label"
+      ]
+    },
+    "onMelted": {
+    }
+  },
+  "transitions": {
+    "melting": {
+      "source": "states/frozen",
+      "target": "states/liquide",
+      "event": "events/onMelted"
+    },
+    "freezing": {
+      "source": "states/liquide",
+      "target": "states/frozen",
+      "event": "events/onFrozen",
+      "effect": "effects/logFreeze"
+    }
+  },
+  "effects": {
+    "logMelting": {},
+    "logAccident": {},
+    "logFreeze": {}
+  },
+  "parameters": {
+    "temperatur": {
+      "type": "integer",
+      "default": "18"
+    },
+    "label": {
+      "type": "string",
+      "default": "no label"
+    }
+  }
+}

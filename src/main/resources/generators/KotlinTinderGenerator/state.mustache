@@ -1,0 +1,47 @@
+import com.tinder.StateMachine
+
+{{#stateMachines}}
+
+sealed class {{#camelcase}}{{machineState}}{{/camelcase}} {
+{{#states}}
+    {{#hasParameters}}{{>machine-state}}{{/hasParameters}}{{^hasParameters}} object {{#camelcase}}{{name}}{{/camelcase}} : {{#camelcase}}{{machineState}}{{/camelcase}}(){{/hasParameters}}
+{{/states}}
+}
+
+sealed class {{#camelcase}}{{machineEvent}}{{/camelcase}} {
+{{#events}}
+    {{#hasParameters}}{{>machine-event}}{{/hasParameters}}{{^hasParameters}}object {{#camelcase}}{{name}}{{/camelcase}} : {{#camelcase}}{{machineEvent}}{{/camelcase}}(){{/hasParameters}}
+{{/events}}
+}
+
+sealed class {{#camelcase}}{{machineEffect}}{{/camelcase}} {
+{{#effects}}
+    object {{#camelcase}}{{name}}{{/camelcase}} : {{#camelcase}}{{machineEffect}}{{/camelcase}}()
+{{/effects}}
+}
+
+val {{#camelcase}}{{name}}{{/camelcase}}Machine = StateMachine.create<{{#camelcase}}{{machineState}}{{/camelcase}}, {{#camelcase}}{{machineEvent}}{{/camelcase}}, {{#camelcase}}{{machineEffect}}{{/camelcase}}> {
+    initialState({{#camelcase}}{{initial.machineState}}{{/camelcase}}.{{#camelcase}}{{initial.name}}{{/camelcase}})
+{{#states}}
+    state<{{#camelcase}}{{machineState}}{{/camelcase}}.{{#camelcase}}{{name}}{{/camelcase}}> {
+    {{#transitions}}
+        on<{{#camelcase}}{{event.machineEvent}}{{/camelcase}}.{{#camelcase}}{{event.name}}{{/camelcase}}> {
+            TODO()
+            transitionTo({{#camelcase}}{{target.machineState}}{{/camelcase}}.{{#camelcase}}{{target.name}}{{#target.hasParameters}}(){{/target.hasParameters}}{{/camelcase}}{{#effect}} ,{{#camelcase}}{{effect.machineEffect}}{{/camelcase}}.{{#camelcase}}{{effect.name}}{{/camelcase}}{{/effect}})
+        }
+    {{/transitions}}
+    }
+{{/states}}
+{{#effects.size}}
+    onTransition {
+        val validTransition = it as? StateMachine.Transition.Valid ?: return@onTransition
+        when (validTransition.sideEffect) {
+        {{#effects}}
+            {{#camelcase}}{{machineEffect}}{{/camelcase}}.{{#camelcase}}{{name}}{{/camelcase}} -> TODO()
+        {{/effects}}
+            else -> error("unsupported effect")
+        }
+    }
+{{/effects.size}}
+}
+{{/stateMachines}}
