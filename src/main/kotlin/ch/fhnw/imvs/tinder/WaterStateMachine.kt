@@ -35,6 +35,7 @@ val WaterModelMachine = StateMachine.create<WaterModelState, WaterModelEvent, Wa
             transitionTo(WaterModelState.Liquide)
         }
     }
+    
     onTransition {
         val validTransition = it as? StateMachine.Transition.Valid ?: return@onTransition
         when (validTransition.sideEffect) {
