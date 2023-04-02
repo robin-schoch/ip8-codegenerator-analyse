@@ -2,56 +2,42 @@ package ch.fhnw.imvs.tinder
 
 import com.tinder.StateMachine
 
-
-sealed class WaterModelState {
-    object Liquide : WaterModelState()
-    data class Frozen(val temperatur: Int = 18, val label: String = "no label") : WaterModelState()
-
+sealed class BridgeState {
+    data object Open : BridgeState()
+    data object Closed : BridgeState()
 }
 
-sealed class WaterModelEvent {
-    object OnMelted : WaterModelEvent()
-    data class OnFrozen(val temperatur: Int = 18, val label: String = "no label") : WaterModelEvent()
-
+sealed class BridgeEvent {
+    data object OnClose : BridgeEvent()
+    data object OnOpen : BridgeEvent()
 }
 
-sealed class WaterModelEffect {
-    object LogMelting : WaterModelEffect()
-    object LogAccident : WaterModelEffect()
-    object LogFreeze : WaterModelEffect()
+sealed class BridgeEffect {
+    data object ChangeTrafficLightToRed : BridgeEffect()
+    data object ChangeTrafficLightToGreen : BridgeEffect()
 }
 
-val WaterModelMachine = StateMachine.create<WaterModelState, WaterModelEvent, WaterModelEffect> {
-    initialState(WaterModelState.Liquide)
-    state<WaterModelState.Liquide> {
-        on<WaterModelEvent.OnFrozen> {
+val BridgeMachine = StateMachine.create<BridgeState, BridgeEvent, BridgeEffect> {
+    initialState(BridgeState.Open)
+    state<BridgeState.Open> {
+        on<BridgeEvent.OnClose> {
             TODO()
-            transitionTo(WaterModelState.Frozen(), WaterModelEffect.LogFreeze)
+            transitionTo(BridgeState.Closed, BridgeEffect.ChangeTrafficLightToRed)
         }
     }
-    state<WaterModelState.Frozen> {
-        on<WaterModelEvent.OnMelted> {
-            TODO()
-            transitionTo(WaterModelState.Liquide)
-        }
+    state<BridgeState.Closed> {
     }
-    
     onTransition {
         val validTransition = it as? StateMachine.Transition.Valid ?: return@onTransition
-        when (validTransition.sideEffect) {
-            WaterModelEffect.LogMelting -> TODO()
-            WaterModelEffect.LogAccident -> TODO()
-            WaterModelEffect.LogFreeze -> TODO()
-            else -> error("unsupported effect")
+        validTransition.sideEffect?.let { effect ->
+            when (effect) {
+                BridgeEffect.ChangeTrafficLightToRed -> TODO()
+                BridgeEffect.ChangeTrafficLightToGreen -> TODO()
+            }
         }
     }
 }
 
 fun main() {
-    WaterModelMachine.transition(WaterModelEvent.OnMelted)
-    println(WaterModelMachine.state)
-    WaterModelMachine.transition(WaterModelEvent.OnFrozen())
-    println(WaterModelMachine.state)
-    WaterModelMachine.transition(WaterModelEvent.OnMelted)
-    println(WaterModelMachine.state)
+
 }

@@ -1,0 +1,7 @@
+package {{package}};
+
+public enum {{#camelcase}}{{machineEvent}}{{/camelcase}} {
+{{#events}}
+    {{#snakecase}}{{name}}{{/snakecase}},
+{{/events}}
+}

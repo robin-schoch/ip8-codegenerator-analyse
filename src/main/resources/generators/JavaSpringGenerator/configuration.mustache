@@ -1,0 +1,56 @@
+package {{package}};
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.statemachine.action.Action;
+import org.springframework.statemachine.config.EnableStateMachine;
+import org.springframework.statemachine.config.StateMachineConfigurerAdapter;
+import org.springframework.statemachine.config.builders.StateMachineStateConfigurer;
+import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
+
+
+@Configuration
+@EnableStateMachine
+public class {{#camelcase}}{{name}}{{/camelcase}}Configuration extends StateMachineConfigurerAdapter{{>spring-generic}} {
+
+    @Override
+    public void configure(StateMachineStateConfigurer{{>spring-generic}} states) throws Exception {
+        states
+            .withStates()
+            .states(EnumSet.allOf({{#camelcase}}{{machineState}}{{/camelcase}}.class))
+{{#states}}
+            .stateEntry({{#camelcase}}{{machineState}}{{/camelcase}}.{{#snakecase}}{{name}}{{/snakecase}}, {{>spring-action}})
+{{/states}}
+            .initial({{#camelcase}}{{initial.machineState}}{{/camelcase}}.{{#snakecase}}{{initial.name}}{{/snakecase}});
+    }
+
+    @Override
+    public void configure(StateMachineTransitionConfigurer{{>spring-generic}} transitions) throws Exception {
+        transitions
+{{#states}}
+{{#transitions}}
+                   .withExternal().source({{#camelcase}}{{machineState}}{{/camelcase}}.{{#snakecase}}{{name}}{{/snakecase}})
+                                  .target({{#camelcase}}{{target.machineState}}{{/camelcase}}.{{#snakecase}}{{target.name}}{{/snakecase}})
+                                  .event({{#camelcase}}{{event.machineEvent}}{{/camelcase}}.{{#snakecase}}{{event.name}}{{/snakecase}})
+                                  .action({{>spring-event-action}})
+                   .and()
+{{/transitions}}
+{{/states}};
+    }
+
+{{#states}}
+    @Bean
+    public Action{{>spring-generic}} {{>spring-action}} {
+        return ctx -> { /* TODO */ };
+    }
+{{/states}}
+
+{{#states}}
+    {{#transitions}}
+    @Bean
+    public Action{{>spring-generic}} {{>spring-event-action}} {
+        return ctx -> { /* TODO */ };
+    }
+    {{/transitions}}
+{{/states}}
+}

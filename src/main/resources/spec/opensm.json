@@ -1,6 +1,21 @@
 {
   "version": "0.0.8",
   "stateMachines": {
+    "bridge": {
+      "initialState": "states/open",
+      "states": [
+        "states/open",
+        "states/closed"
+      ],
+      "events": [
+        "events/onClose",
+        "events/onOpen"
+      ],
+      "effects": [
+        "effects/changeTrafficLightToRed",
+        "effects/changeTrafficLightToGreen"
+      ]
+    },
     "waterModel": {
       "initialState": "states/liquide",
       "states": [
@@ -19,6 +34,12 @@
     }
   },
   "states": {
+    "closed": {
+      "description": "bridge is closed"
+    },
+    "open": {
+      "description": "bridge is open"
+    },
     "frozen": {
       "description": "water is frozen",
       "parameters": [
@@ -31,6 +52,8 @@
     }
   },
   "events": {
+    "onOpen": {},
+    "onClose": {},
     "onFrozen": {
       "parameters": [
         "parameters/temperatur",
@@ -41,6 +64,18 @@
     }
   },
   "transitions": {
+    "closing": {
+      "source": "states/open",
+      "target": "states/closed",
+      "event": "events/onClose",
+      "effect": "events/changeTrafficLightToRed"
+    },
+    "opening": {
+      "source": "states/close",
+      "target": "states/open",
+      "event": "events/onOpen",
+      "effect": "events/changeTrafficLightToGreen"
+    },
     "melting": {
       "source": "states/frozen",
       "target": "states/liquide",
@@ -56,7 +91,9 @@
   "effects": {
     "logMelting": {},
     "logAccident": {},
-    "logFreeze": {}
+    "logFreeze": {},
+    "changeTrafficLightToRed": {},
+    "changeTrafficLightToGreen": {}
   },
   "parameters": {
     "temperatur": {

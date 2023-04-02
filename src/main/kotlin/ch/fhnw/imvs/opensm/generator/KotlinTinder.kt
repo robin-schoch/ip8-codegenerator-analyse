@@ -1,6 +1,7 @@
 package ch.fhnw.imvs.opensm.generator
 
 import ch.fhnw.imvs.opensm.core.*
+import ch.fhnw.imvs.opensm.core.lambda.CamelCaseTransformer
 import ch.fhnw.imvs.opensm.core.model.PrimitiveTyp
 import ch.fhnw.imvs.opensm.spec.V0_0_10
 import ch.fhnw.imvs.opensm.spec.V0_0_8
@@ -29,17 +30,37 @@ data class KotlinTinderGenerator(
 
     override val name = "KotlinTinderGenerator"
     override val supportedVersion = V0_0_8 to V0_0_10
-    override val primitiveResolver: PrimitiveResolver
-        get() = KotlinPrimitiveResolver
+    override val primitiveResolver = KotlinPrimitiveResolver
 
     override val languageSpecificPrimitives: Map<String, String>
         get() = mutableMapOf()
 
-    override fun process(): Sequence<Output> = loadTemplates().map { template ->
-        "${template.nameWithoutExtension}.kt" to compileTemplate(template, genModel)
+    override fun process(): Sequence<Output> {
+        val packagePath =
+            "/src/main/kotlin/" + ParentContext.get("package").toString().replacePackageDeclarationToPath()
+
+        val declarationTemplate =
+            loadTemplates().find { it.nameWithoutExtension == "state" } ?: error("abort generation template is missing")
+
+        return sequence<Output> {
+            val output = genModel.stateMachines.map {
+                "${packagePath}/${CamelCaseTransformer.transform(it.name)}.kt" to compileTemplate(
+                    declarationTemplate,
+                    it
+                )
+            }
+            yieldAll(output)
+        }
+    }
+
+    override fun preProcessing() {
+        ParentContext.add("package", workFlowConfig.packagePath)
+        ParentContext.add("projectName", workFlowConfig.projectName)
     }
 
     override fun postProcessing() {
         println("done post processing")
     }
+
+    private fun String.replacePackageDeclarationToPath() = replace(".", "/")
 }

@@ -5,8 +5,8 @@ val semver_version: String by project
 val logging_version: String by project
 
 plugins {
-    kotlin("jvm") version "1.7.20"
-    kotlin("plugin.serialization") version "1.7.20"
+    kotlin("jvm") version "1.8.20"
+    kotlin("plugin.serialization") version "1.8.20"
 }
 
 group = "ch.fhnw.imvs"
@@ -15,7 +15,6 @@ version = "1.0-SNAPSHOT"
 repositories {
     mavenCentral()
 }
-
 
 dependencies {
     implementation("com.tinder.statemachine:statemachine:0.2.0")
@@ -29,9 +28,15 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
     implementation("io.github.z4kn4fein:semver:$semver_version")
     implementation("io.github.oshai:kotlin-logging-jvm:$logging_version")
+    implementation("org.springframework.statemachine:spring-statemachine-core:3.2.0")
+    implementation("org.springframework:spring-context:6.0.6")
     testImplementation(kotlin("test"))
     implementation("org.mapstruct:mapstruct:1.5.3.Final")
     annotationProcessor("org.mapstruct:mapstruct-processor:1.5.3.Final")
+    implementation("org.springframework.boot:spring-boot-starter-parent:3.0.5")
+    implementation("org.springframework.boot:spring-boot-starter:3.0.5")
+
+
 }
 
 tasks.test {
@@ -40,6 +45,6 @@ tasks.test {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
-    kotlinOptions.languageVersion = "1.8"
+    kotlinOptions.languageVersion = kotlin_version
     kotlinOptions.freeCompilerArgs = listOf("-Xcontext-receivers")
 }

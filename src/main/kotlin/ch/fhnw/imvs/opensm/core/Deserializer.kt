@@ -30,7 +30,10 @@ object FileDeserializer : Deserializer {
 
     override fun Sequence<Output>.write(workFlowConfig: WorkFlowConfig) {
         forEachIndexed() { _, output ->
-            File("output/opensm/${output.first}").writeText(output.second)
+            File(workFlowConfig.projectName + output.first).let {
+                it.parentFile.mkdirs()
+                it.writeText(output.second)
+            }
         }
     }
 }

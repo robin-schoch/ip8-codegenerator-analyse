@@ -31,11 +31,11 @@ interface BaseGenerator : Deserializer {
 
     val mustacheCompiler: Mustache.Compiler
         get() = Mustache.compiler()
-            .withLoader(Mustache.TemplateLoader { name ->
+            .withLoader { name ->
                 with(javaClass.classLoader.getResource("$partialTemplateDir/$name.mustache")) {
                     FileReader(this?.file ?: error("partial template directory is missing generation aborted"))
                 }
-            })
+            }
     val smSpec: SMSpec
         get() = deserializer.readSpec(workFlowConfig)
 
@@ -67,6 +67,7 @@ interface BaseGenerator : Deserializer {
 
     fun generate() {
         validate()
+        preProcessing()
         process().write(workFlowConfig)
         postProcessing()
     }
@@ -77,6 +78,8 @@ interface BaseGenerator : Deserializer {
             exitProcess(0);
         }
     }
+
+    fun preProcessing()
 
     fun process(): Sequence<Output>
 
