@@ -30,9 +30,10 @@ object FileDeserializer : Deserializer {
 
     override fun Sequence<Output>.write(workFlowConfig: WorkFlowConfig) {
         forEachIndexed() { _, output ->
-            File(workFlowConfig.projectName + output.first).let {
+            File("${workFlowConfig.projectName}${output.first}").let {
                 it.parentFile.mkdirs()
                 it.writeText(output.second)
+                println(it.absolutePath)
             }
         }
     }
