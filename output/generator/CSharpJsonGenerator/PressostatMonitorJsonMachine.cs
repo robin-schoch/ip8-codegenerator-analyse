@@ -17,7 +17,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string _currentState = Idle;
 
-        public PressostatControlStateMachineStageOne(IRegistry registry, ILogger logger)
+        public PressostatMonitor(IRegistry registry, ILogger logger)
         {
             _registry = registry;
             _logger = logger;
@@ -56,6 +56,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
                 return Debounce;
             }
+        return Idle;
         }
 
         private string DebounceState()
@@ -86,6 +87,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
                 return Idle;
             }
+        return Debounce;
         }
 
         private string CriticalState()
@@ -109,6 +111,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
                 return Idle;
             }
+        return Critical;
         }
 
         private string PauseState()
@@ -134,6 +137,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
                 return Idle;
             }
+        return Pause;
         }
 
         private string MalfunctionState()
@@ -141,6 +145,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
             _registry.GetInvocation("d9cda25d-30ff-4050-9e8b-9191b1e03d01", _logger)();
             _registry.GetInvocation("62ee9af9-6dcc-4a12-b665-9215a593cbb9", _logger)();
 
+        return Malfunction;
         }
 
         private bool event0()

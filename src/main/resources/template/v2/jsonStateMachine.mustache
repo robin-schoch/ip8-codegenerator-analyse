@@ -15,7 +15,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string _currentState = {{initialState.cleanName}};
 
-        public PressostatControlStateMachineStageOne(IRegistry registry, ILogger logger)
+        public {{machine.name}}(IRegistry registry, ILogger logger)
         {
             _registry = registry;
             _logger = logger;
@@ -55,6 +55,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
                 return {{target}};
             }
         {{/transitions}}
+        return {{state.cleanName}};
         }
 
     {{/states}}

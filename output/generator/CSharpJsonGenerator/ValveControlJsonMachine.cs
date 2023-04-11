@@ -18,7 +18,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string _currentState = Zuluft_heizen___Speicher_laden__A_;
 
-        public PressostatControlStateMachineStageOne(IRegistry registry, ILogger logger)
+        public ValveControl(IRegistry registry, ILogger logger)
         {
             _registry = registry;
             _logger = logger;
@@ -59,6 +59,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
                 return Zuluft_Bypass___Speicher_laden__C_;
             }
+        return Zuluft_heizen___Speicher_laden__A_;
         }
 
         private string Zuluft_heizen___Speicher_Bypass__B_State()
@@ -76,6 +77,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
                 return Zuluft_Bypass___Speicher_Bypass__D_;
             }
+        return Zuluft_heizen___Speicher_Bypass__B_;
         }
 
         private string Zuluft_Bypass___Speicher_laden__C_State()
@@ -99,6 +101,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
                 return Zuluft_k_hlen___Speicher_laden__E_;
             }
+        return Zuluft_Bypass___Speicher_laden__C_;
         }
 
         private string Zuluft_Bypass___Speicher_Bypass__D_State()
@@ -122,6 +125,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
                 return Zuluft_k_hlen___Speicher_Bypass__F_;
             }
+        return Zuluft_Bypass___Speicher_Bypass__D_;
         }
 
         private string Zuluft_k_hlen___Speicher_laden__E_State()
@@ -139,6 +143,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
                 return Zuluft_Bypass___Speicher_laden__C_;
             }
+        return Zuluft_k_hlen___Speicher_laden__E_;
         }
 
         private string Zuluft_k_hlen___Speicher_Bypass__F_State()
@@ -156,6 +161,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
                 return Zuluft_Bypass___Speicher_Bypass__D_;
             }
+        return Zuluft_k_hlen___Speicher_Bypass__F_;
         }
 
         private bool event0()

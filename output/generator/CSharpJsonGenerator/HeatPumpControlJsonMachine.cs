@@ -21,7 +21,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
         private string _currentState = Idle;
 
-        public PressostatControlStateMachineStageOne(IRegistry registry, ILogger logger)
+        public HeatPumpControl(IRegistry registry, ILogger logger)
         {
             _registry = registry;
             _logger = logger;
@@ -86,6 +86,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
                 return Critical_1;
             }
+        return Idle;
         }
 
         private string NormalState()
@@ -124,6 +125,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
                 return Critical_1;
             }
+        return Normal;
         }
 
         private string Critical_1State()
@@ -180,6 +182,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
                 return Defrost;
             }
+        return Critical_1;
         }
 
         private string Critical_2State()
@@ -238,6 +241,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
                 return Critical_3;
             }
+        return Critical_2;
         }
 
         private string Critical_3State()
@@ -287,6 +291,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
                 return Critical_2;
             }
+        return Critical_3;
         }
 
         private string DefrostState()
@@ -319,6 +324,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
                 return Drip_off;
             }
+        return Defrost;
         }
 
         private string Drip_offState()
@@ -353,6 +359,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
                 return Normal;
             }
+        return Drip_off;
         }
 
         private string PauseState()
@@ -375,6 +382,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
 
                 return Normal;
             }
+        return Pause;
         }
 
         private string MalfunctionState()
@@ -382,6 +390,7 @@ namespace Swissframe.Util.StateEventEditor.Common.Test
             _registry.GetInvocation("05d527d8-da60-4790-a9f2-714e4e5f0f10", _logger)();
             _registry.GetInvocation("1cfafc09-5d4d-49fe-a87e-d47be164b2f5", _logger)();
 
+        return Malfunction;
         }
 
         private bool event0()
