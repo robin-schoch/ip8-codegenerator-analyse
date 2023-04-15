@@ -11,8 +11,9 @@ import java.io.FileReader
 import java.io.StringWriter
 import kotlin.system.exitProcess
 
+data class Output(val filename: String, val fileContent: String)
 
-typealias Output = Pair<String, String>
+infix fun String.withContent(content: String) = Output(this, content)
 
 interface BaseGenerator : Deserializer {
 
@@ -73,6 +74,10 @@ interface BaseGenerator : Deserializer {
     }
 
     fun validate() {
+        isCompatibleVersion()
+    }
+
+    fun isCompatibleVersion() {
         if (!supportedVersion.isSupportedSpecVersion(smSpec.version)) {
             println("unsupported spec version use different generator or spec")
             exitProcess(0);
@@ -84,5 +89,4 @@ interface BaseGenerator : Deserializer {
     fun process(): Sequence<Output>
 
     fun postProcessing()
-
 }

@@ -48,22 +48,22 @@ data class JavaSpringGenerator(
                 ?: throw RuntimeException("application-runner template not found")
         val packagePath = "/src/main/java/" + ParentContext.get("package").toString().replacePackageDeclarationToPath()
 
-        yield("${packagePath}/ApplicationRunner.java" to compileTemplate(runnerTemplate, genModel))
+        yield("${packagePath}/ApplicationRunner.java" withContent compileTemplate(runnerTemplate, genModel))
         genModel.stateMachines.forEach {
             yieldAll(
                 listOf(
-                    "${packagePath}/${CamelCaseTransformer.transform(it.machineState)}.java" to compileTemplate(
+                    "${packagePath}/${CamelCaseTransformer.transform(it.machineState)}.java" withContent compileTemplate(
                         stateTemplate,
                         it
                     ),
 
-                    "${packagePath}/${CamelCaseTransformer.transform(it.machineEvent)}.java" to compileTemplate(
+                    "${packagePath}/${CamelCaseTransformer.transform(it.machineEvent)}.java" withContent compileTemplate(
                         eventTemplate,
                         it
                     ),
 
                     "${packagePath}/${CamelCaseTransformer.transform(it.name)}Configuration.java"
-                            to compileTemplate(configurationTemplate, it)
+                            withContent compileTemplate(configurationTemplate, it)
                 )
             )
         }

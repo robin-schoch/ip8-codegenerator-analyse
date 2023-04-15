@@ -44,7 +44,7 @@ data class KotlinTinderGenerator(
 
         return sequence<Output> {
             val output = genModel.stateMachines.map {
-                "${packagePath}/${CamelCaseTransformer.transform(it.name)}.kt" to compileTemplate(
+                "${packagePath}/${CamelCaseTransformer.transform(it.name)}.kt" withContent compileTemplate(
                     declarationTemplate,
                     it
                 )
