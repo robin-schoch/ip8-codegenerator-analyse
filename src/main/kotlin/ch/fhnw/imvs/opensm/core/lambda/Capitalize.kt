@@ -7,6 +7,8 @@ import java.io.Writer
 class Capitalize : Mustache.Lambda {
 
     override fun execute(frag: Template.Fragment, out: Writer) = frag.execute().let {
-        out.write("${it.take(1).uppercase()}${it.drop(1)}")
+        out.write(it.toCapitalize())
     }
 }
+
+fun String.toCapitalize() = "${take(1).uppercase()}${drop(1)}"

@@ -56,10 +56,10 @@ interface BaseGenerator : Deserializer {
         }
     }
 
-    fun compileTemplate(template: File, context: Any): String {
-        return with(mustacheCompiler.compile(File(template.absolutePath).bufferedReader())) {
+    infix fun File.compileTemplate(baseContext: Any): String {
+        return with(mustacheCompiler.compile(File(absolutePath).bufferedReader())) {
             StringWriter().use { w ->
-                execute(context, ParentContext.context, w)
+                execute(baseContext, ParentContext.context, w)
                 w.flush()
                 w.toString()
             }

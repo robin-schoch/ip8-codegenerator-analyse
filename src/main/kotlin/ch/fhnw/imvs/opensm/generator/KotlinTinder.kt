@@ -1,7 +1,7 @@
 package ch.fhnw.imvs.opensm.generator
 
 import ch.fhnw.imvs.opensm.core.*
-import ch.fhnw.imvs.opensm.core.lambda.CamelCaseTransformer
+import ch.fhnw.imvs.opensm.core.lambda.toCamelCase
 import ch.fhnw.imvs.opensm.core.model.PrimitiveTyp
 import ch.fhnw.imvs.opensm.spec.V0_0_10
 import ch.fhnw.imvs.opensm.spec.V0_0_8
@@ -44,10 +44,7 @@ data class KotlinTinderGenerator(
 
         return sequence<Output> {
             val output = genModel.stateMachines.map {
-                "${packagePath}/${CamelCaseTransformer.transform(it.name)}.kt" withContent compileTemplate(
-                    declarationTemplate,
-                    it
-                )
+                "${packagePath}/${it.name.toCamelCase()}.kt" withContent (declarationTemplate compileTemplate it)
             }
             yieldAll(output)
         }

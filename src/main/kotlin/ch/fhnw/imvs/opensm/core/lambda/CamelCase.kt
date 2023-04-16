@@ -7,9 +7,7 @@ import java.io.Writer
 class CamelCase : Mustache.Lambda {
 
     override fun execute(frag: Template.Fragment, out: Writer) =
-        out.write(frag.execute().let { CamelCaseTransformer.transform(it) })
+        out.write(frag.execute().toCamelCase())
 }
 
-object CamelCaseTransformer {
-    fun transform(input: String) = input.split(' ').joinToString(separator = "") { it.first().uppercase() + it.drop(1) }
-}
+fun String.toCamelCase() = split(' ').joinToString(separator = "") { it.first().uppercase() + it.drop(1) }

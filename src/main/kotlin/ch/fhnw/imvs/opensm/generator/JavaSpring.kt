@@ -1,7 +1,7 @@
 package ch.fhnw.imvs.opensm.generator
 
 import ch.fhnw.imvs.opensm.core.*
-import ch.fhnw.imvs.opensm.core.lambda.CamelCaseTransformer
+import ch.fhnw.imvs.opensm.core.lambda.toCamelCase
 import ch.fhnw.imvs.opensm.core.model.PrimitiveTyp
 import ch.fhnw.imvs.opensm.spec.V0_0_10
 import ch.fhnw.imvs.opensm.spec.V0_0_8
@@ -48,22 +48,15 @@ data class JavaSpringGenerator(
                 ?: throw RuntimeException("application-runner template not found")
         val packagePath = "/src/main/java/" + ParentContext.get("package").toString().replacePackageDeclarationToPath()
 
-        yield("${packagePath}/ApplicationRunner.java" withContent compileTemplate(runnerTemplate, genModel))
+        yield("${packagePath}/ApplicationRunner.java" withContent (runnerTemplate compileTemplate genModel))
         genModel.stateMachines.forEach {
             yieldAll(
                 listOf(
-                    "${packagePath}/${CamelCaseTransformer.transform(it.machineState)}.java" withContent compileTemplate(
-                        stateTemplate,
-                        it
-                    ),
+                    "${packagePath}/${it.machineState.toCamelCase()}.java" withContent (stateTemplate compileTemplate it),
 
-                    "${packagePath}/${CamelCaseTransformer.transform(it.machineEvent)}.java" withContent compileTemplate(
-                        eventTemplate,
-                        it
-                    ),
+                    "${packagePath}/${it.machineEvent.toCamelCase()}.java" withContent (eventTemplate compileTemplate it),
 
-                    "${packagePath}/${CamelCaseTransformer.transform(it.name)}Configuration.java"
-                            withContent compileTemplate(configurationTemplate, it)
+                    "${packagePath}/${it.name.toCamelCase()}Configuration.java" withContent (configurationTemplate compileTemplate it)
                 )
             )
         }
