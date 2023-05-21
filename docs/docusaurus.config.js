@@ -39,7 +39,7 @@ const config = {
             /** @type {import('@docusaurus/preset-classic').Options} */
             ({
                 docs: {
-                    routeBasePath: '/',
+                    routeBasePath: 'ip8-codegenerator-analyse',
                     sidebarPath: require.resolve('./sidebars.js'),
                     // Please change this to your repo.
                     // Remove this to remove the "edit this page" links.
