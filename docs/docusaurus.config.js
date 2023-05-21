@@ -65,8 +65,16 @@ const config = {
                     src: 'img/logo.svg',
                 },
                 items: [
-                    {to: '/category/swissframe-generator', label: 'Generator for Swissframe', position: 'left'},
-                    {to: '/category/generic-generator', label: 'Generator for Generic', position: 'left'},
+                    {
+                        to: 'ip8-codegenerator-analyse/category/swissframe-generator',
+                        label: 'Generator for Swissframe',
+                        position: 'left'
+                    },
+                    {
+                        to: 'ip8-codegenerator-analyse/category/generic-generator',
+                        label: 'Generator for Generic',
+                        position: 'left'
+                    },
                     {
                         href: 'https://github.com/robin-schoch/ip8-codegenerator-analyse',
                         label: 'GitHub',
@@ -82,11 +90,11 @@ const config = {
                         items: [
                             {
                                 label: 'Generator for Swissframe',
-                                to: '/category/swissframe-generator',
+                                to: 'ip8-codegenerator-analyse/category/swissframe-generator',
                             },
                             {
                                 label: 'Generator for generic',
-                                to: '/category/generic-generator',
+                                to: 'ip8-codegenerator-analyse/category/generic-generator',
                             },
                         ],
                     },
