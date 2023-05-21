@@ -51,7 +51,7 @@ tasks.register<JavaExec>("generateForSpringStateMachine") {
     main = "ch.fhnw.imvs.opensm.api.CommandLineKt"
     classpath = sourceSets["main"].runtimeClasspath
     // Default arguments
-    var inputPath = "/Users/robin/Documents/GitHub/ip8-codegenerator-analyse/src/main/resources/spec/opensm.json"
+    var inputPath = "src/main/resources/spec/opensm.json"
     var generator = "java-spring"
     var projectName = "spring-open-statemachine"
 
@@ -72,7 +72,7 @@ tasks.register<JavaExec>("generateForTinderStateMachine") {
     main = "ch.fhnw.imvs.opensm.api.CommandLineKt"
     classpath = sourceSets["main"].runtimeClasspath
     // Default arguments
-    var inputPath = "/Users/robin/Documents/GitHub/ip8-codegenerator-analyse/src/main/resources/spec/opensm.json"
+    var inputPath = "src/main/resources/spec/opensm.json"
     var generator = "kotlin-tinder"
     var projectName = "tinder-open-statemachine"
 
@@ -87,4 +87,40 @@ tasks.register<JavaExec>("generateForTinderStateMachine") {
         projectName = project.property("pn") as String
     }
     args = listOf("-in", inputPath, "-g", generator, "-pn", projectName)
+}
+
+tasks.register<JavaExec>("generateStage1") {
+    main = "ch.fhnw.imvs.mustache.MainKt"
+    classpath = sourceSets["main"].runtimeClasspath
+    // Default arguments
+    var inputPath = "json/state.json"
+    var outputDir = "./output/generator"
+
+
+    // Overwrite with project properties from command line if present
+    if (project.hasProperty("in")) {
+        inputPath = project.property("in") as String
+    }
+    if (project.hasProperty("out")) {
+        outputDir = project.property("out") as String
+    }
+    args = listOf("-G", "CSharpJsonGenerator", "-in", inputPath, "-O", outputDir)
+}
+
+tasks.register<JavaExec>("generateStage2") {
+    main = "ch.fhnw.imvs.mustache.MainKt"
+    classpath = sourceSets["main"].runtimeClasspath
+    // Default arguments
+    var inputPath = "json/state.json"
+    var outputDir = "./output/generator"
+
+
+    // Overwrite with project properties from command line if present
+    if (project.hasProperty("in")) {
+        inputPath = project.property("in") as String
+    }
+    if (project.hasProperty("out")) {
+        outputDir = project.property("out") as String
+    }
+    args = listOf("-in", inputPath, "-O", outputDir)
 }
