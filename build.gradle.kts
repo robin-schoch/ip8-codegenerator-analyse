@@ -35,8 +35,6 @@ dependencies {
     annotationProcessor("org.mapstruct:mapstruct-processor:1.5.3.Final")
     implementation("org.springframework.boot:spring-boot-starter-parent:3.0.5")
     implementation("org.springframework.boot:spring-boot-starter:3.0.5")
-
-
 }
 
 tasks.test {
@@ -47,4 +45,46 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
     kotlinOptions.languageVersion = kotlin_version
     kotlinOptions.freeCompilerArgs = listOf("-Xcontext-receivers")
+}
+
+tasks.register<JavaExec>("generateForSpringStateMachine") {
+    main = "ch.fhnw.imvs.opensm.api.CommandLineKt"
+    classpath = sourceSets["main"].runtimeClasspath
+    // Default arguments
+    var inputPath = "/Users/robin/Documents/GitHub/ip8-codegenerator-analyse/src/main/resources/spec/opensm.json"
+    var generator = "java-spring"
+    var projectName = "spring-open-statemachine"
+
+    // Overwrite with project properties from command line if present
+    if (project.hasProperty("in")) {
+        inputPath = project.property("in") as String
+    }
+    if (project.hasProperty("g")) {
+        generator = project.property("g") as String
+    }
+    if (project.hasProperty("pn")) {
+        projectName = project.property("pn") as String
+    }
+    args = listOf("-in", inputPath, "-g", generator, "-pn", projectName)
+}
+
+tasks.register<JavaExec>("generateForTinderStateMachine") {
+    main = "ch.fhnw.imvs.opensm.api.CommandLineKt"
+    classpath = sourceSets["main"].runtimeClasspath
+    // Default arguments
+    var inputPath = "/Users/robin/Documents/GitHub/ip8-codegenerator-analyse/src/main/resources/spec/opensm.json"
+    var generator = "kotlin-tinder"
+    var projectName = "tinder-open-statemachine"
+
+    // Overwrite with project properties from command line if present
+    if (project.hasProperty("in")) {
+        inputPath = project.property("in") as String
+    }
+    if (project.hasProperty("g")) {
+        generator = project.property("g") as String
+    }
+    if (project.hasProperty("pn")) {
+        projectName = project.property("pn") as String
+    }
+    args = listOf("-in", inputPath, "-g", generator, "-pn", projectName)
 }
