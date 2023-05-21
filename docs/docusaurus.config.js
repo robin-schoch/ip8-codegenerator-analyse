@@ -14,7 +14,7 @@ const config = {
     url: 'https://robin-schoch.github.io',
     // Set the /<baseUrl>/ pathname under which your site is served
     // For GitHub pages deployment, it is often '/<projectName>/'
-    baseUrl: '/',
+    baseUrl: '/ip8-codegenerator-analyse/',
 
     // GitHub pages deployment config.
     // If you aren't using GitHub pages, you don't need these.
@@ -39,7 +39,7 @@ const config = {
             /** @type {import('@docusaurus/preset-classic').Options} */
             ({
                 docs: {
-                    routeBasePath: 'ip8-codegenerator-analyse',
+                    routeBasePath: '',
                     sidebarPath: require.resolve('./sidebars.js'),
                     // Please change this to your repo.
                     // Remove this to remove the "edit this page" links.
@@ -66,12 +66,12 @@ const config = {
                 },
                 items: [
                     {
-                        to: 'ip8-codegenerator-analyse/category/swissframe-generator',
+                        to: 'category/swissframe-generator',
                         label: 'Generator for Swissframe',
                         position: 'left'
                     },
                     {
-                        to: 'ip8-codegenerator-analyse/category/generic-generator',
+                        to: 'category/generic-generator',
                         label: 'Generator for Generic',
                         position: 'left'
                     },
@@ -90,11 +90,11 @@ const config = {
                         items: [
                             {
                                 label: 'Generator for Swissframe',
-                                to: 'ip8-codegenerator-analyse/category/swissframe-generator',
+                                to: 'category/swissframe-generator',
                             },
                             {
                                 label: 'Generator for generic',
-                                to: 'ip8-codegenerator-analyse/category/generic-generator',
+                                to: 'category/generic-generator',
                             },
                         ],
                     },
