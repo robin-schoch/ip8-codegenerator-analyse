@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[210],{8250:e=>{e.exports=JSON.parse('{"title":"Swissframe Generator","description":"5 minutes to learn the most important Docusaurus concepts.","slug":"/category/swissframe-generator","permalink":"/category/swissframe-generator","navigation":{"next":{"title":"Stage 1","permalink":"/swissframe/stage-1"}}}')}}]);
