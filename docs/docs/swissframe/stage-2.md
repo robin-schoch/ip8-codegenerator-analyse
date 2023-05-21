@@ -28,7 +28,7 @@ var outputDir = "./output/generator"
 These properties can be overridden when running the Gradle task from the command line using the `-P` option, like this:
 
 ```bash
-./gradlew generateStage1 -Pin=new_input_paht Pout=new_out_directory
+./gradlew generateStage1 -Pin=new_input_paht -Pout=new_out_directory
 ```
 
 ## Run with Intelij Run Config
