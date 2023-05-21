@@ -20,9 +20,14 @@ fun main(args: Array<String>) {
         shortName = "G",
         description = "Select generator ${GeneratorRegistry.listGenerators()}"
     ).default(CSharpGenerator.key)
+    val inputPath by parser.option(
+        ArgType.String,
+        shortName = "in",
+        description = "Input path of file"
+    ).default("json/state.json")
     parser.parse(args)
 
-    val jsonParser = DSLParser("json/state.json")
+    val jsonParser = DSLParser(inputPath)
     with(GeneratorRegistry.useGenerate(generator)) {
         println("Using $key ")
         initialise(jsonParser.dsl)
