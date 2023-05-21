@@ -37,8 +37,7 @@ public class WaterModelConfiguration extends StateMachineConfigurerAdapter<Water
                 .target(WaterModelState.LIQUIDE)
                 .event(WaterModelEvent.ONMELTED)
                 .action(executeEventOnMeltedFromFrozenToLiquideAction())
-                .and()
-        ;
+                .and();
     }
 
     @Bean

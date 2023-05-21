@@ -175,10 +175,10 @@ class Add(
 ) : Action() {
     override fun buildCall(): InlineItem {
         return InlineItem(id) { items: InlineItems, actionParams ->
-            val (addee, addor) = if (actionParams.size >= 2) {
+            val (n1, n2) = if (actionParams.size >= 2) {
                 actionParams.map { items[it] ?: error("Parameter with id ${actionParams.first()} does not exist") }
             } else error("Missing parameter for Add Action")
-            "${addee.call(items, actionParams)} -= ${addor.call(items, actionParams)};"
+            "${n1.call(items, actionParams)} -= ${n2.call(items, actionParams)};"
         }
     }
 }

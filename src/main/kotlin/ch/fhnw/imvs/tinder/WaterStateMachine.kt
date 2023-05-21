@@ -17,12 +17,10 @@ sealed class BridgeEffect {
     data object ChangeTrafficLightToGreen : BridgeEffect()
 }
 
-val cridgeMachine = StateMachine.create<BridgeState, BridgeEvent, BridgeEffect> {
+val bridgeMachine = StateMachine.create<BridgeState, BridgeEvent, BridgeEffect> {
     initialState(BridgeState.Open)
     state<BridgeState.Open> {
         on<BridgeEvent.OnClose> {
-
-            TODO()
             transitionTo(BridgeState.Closed, BridgeEffect.ChangeTrafficLightToRed)
         }
     }
@@ -40,5 +38,5 @@ val cridgeMachine = StateMachine.create<BridgeState, BridgeEvent, BridgeEffect> 
 }
 
 fun main() {
-    cridgeMachine.transition(BridgeEvent.OnClose)
+    bridgeMachine.transition(BridgeEvent.OnClose)
 }

@@ -31,8 +31,6 @@ data class JavaSpringGenerator(
     override val name = "JavaSpringGenerator"
     override val supportedVersion = V0_0_8 to V0_0_10
     override val primitiveResolver = JavaPrimitiveResolver
-    override val languageSpecificPrimitives: Map<String, String>
-        get() = mutableMapOf()
 
     override fun process(): Sequence<Output> = sequence {
         val templates = loadTemplates()

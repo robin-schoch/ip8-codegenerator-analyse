@@ -5,9 +5,9 @@ import com.samskivert.mustache.Template
 import java.io.Writer
 
 class CamelCase : Mustache.Lambda {
-
     override fun execute(frag: Template.Fragment, out: Writer) =
         out.write(frag.execute().toCamelCase())
 }
 
-fun String.toCamelCase() = split(' ').joinToString(separator = "") { it.first().uppercase() + it.drop(1) }
+fun String.toCamelCase() = split(' ')
+    .joinToString(separator = "") { it.first().uppercase() + it.drop(1) }

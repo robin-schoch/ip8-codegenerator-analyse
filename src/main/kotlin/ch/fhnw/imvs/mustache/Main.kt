@@ -39,5 +39,5 @@ fun main(args: Array<String>) {
 object App {
     const val appName = "SEM Generator"
     const val version = "0.0.1"
-    const val outputDir = "/Users/robin/Documents/GitHub/ip8-codegenerator-analyse/output/generator"
+    const val outputDir = "./output/generator"
 }

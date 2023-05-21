@@ -4,12 +4,7 @@ import ch.fhnw.imvs.opensm.core.PrimitiveResolver
 import ch.fhnw.imvs.opensm.core.model.*
 import ch.fhnw.imvs.opensm.spec.SMSpec
 import ch.fhnw.imvs.opensm.spec.dsl.Parameter
-import ch.fhnw.imvs.opensm.spec.dsl.State
 import ch.fhnw.imvs.opensm.spec.dsl.Transition
-import org.mapstruct.Context
-import org.mapstruct.Mapper
-import org.mapstruct.Mapping
-import org.mapstruct.factory.Mappers
 
 
 fun SMSpec.toGenModel(primitiveResolver: PrimitiveResolver): GenModel {
@@ -73,21 +68,4 @@ fun SMSpec.toGenModel(primitiveResolver: PrimitiveResolver): GenModel {
         }
 
     return GenModel(machine)
-}
-
-@Mapper
-interface SpecMapper {
-
-    @Mapping(target = "states", source = "states")
-    fun mapToGenStateMachine(stateMachine: SMSpec, @Context ctx: SMSpec): GenStateMachine
-
-
-    @Mapping(target = "name", source = "key")
-    @Mapping(target = "transitions", source = "value")
-    fun mapToGenState(state: Map.Entry<String, State>, @Context ctx: SMSpec): GenState
-
-
-    companion object {
-        val INSTANCE = Mappers.getMapper(SpecMapper::class.java)
-    }
 }

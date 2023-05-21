@@ -19,15 +19,14 @@ package org.openapitools.client.models
 import com.squareup.moshi.Json
 
 /**
- * 
  *
- * @param validFromDate Start date of one break period. Standing order will not be processed from this date.  Date format YYYY-MM-DD. 
- * @param validToDate End date of one break period. Standing order will not be processed to this date.  Date format YYYY-MM-DD. 
+ *
+ * @param validFromDate Start date of one break period. Standing order will not be processed from this date.  Date format YYYY-MM-DD.
+ * @param validToDate End date of one break period. Standing order will not be processed to this date.  Date format YYYY-MM-DD.
  */
 
 
-data class StandingorderSubmissionRequestExecutionBreaksInner (
-
+data class StandingorderSubmissionRequestExecutionBreaksInner(
     /* Start date of one break period. Standing order will not be processed from this date.  Date format YYYY-MM-DD.  */
     @Json(name = "validFromDate")
     val validFromDate: java.time.LocalDate? = null,
@@ -35,6 +34,4 @@ data class StandingorderSubmissionRequestExecutionBreaksInner (
     /* End date of one break period. Standing order will not be processed to this date.  Date format YYYY-MM-DD.  */
     @Json(name = "validToDate")
     val validToDate: java.time.LocalDate? = null
-
 )
-

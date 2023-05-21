@@ -7,8 +7,8 @@ interface Generator {
     val key: String
 
     fun register() = GeneratorRegistry.register(this)
-    fun initialise(dsl: JSONDSL)
 
+    fun initialise(dsl: JSONDSL)
 
     fun generateStateMachines(outputDir: String, machines: Set<String>)
 

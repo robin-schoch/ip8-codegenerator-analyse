@@ -1,0 +1,8 @@
+{
+  "label": "Generic Generator",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "How to run the Open State Machine generator"
+  }
+}

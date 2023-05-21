@@ -88,7 +88,6 @@ class IntProperty(
     override fun buildEntry(): RegistryItem {
         return RegistryItem(id) { _ -> statement }
     }
-
 }
 
 

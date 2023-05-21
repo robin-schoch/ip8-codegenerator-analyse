@@ -56,7 +56,6 @@ object CSharpGenerator : Generator {
         println("Generated registry $outputPath")
     }
 
-
     fun generateStateMachine(
         stateMachineTemplate: StateMachineTemplate,
         mustacheTemplatePath: String,
@@ -155,6 +154,3 @@ object CSharpGenerator : Generator {
         }
     }
 }
-
-
-

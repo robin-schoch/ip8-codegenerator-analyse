@@ -14,16 +14,12 @@ object ParentContext {
         "snakecase" to SnakeCase()
     )
 
-    val context
-        get() = ctx.toMap()
+    val context get() = ctx.toMap()
 
     fun add(key: String, value: Any) {
         ctx[key] = value
     }
 
-    fun add(elements: Map<String, Any>) {
-        ctx.putAll(elements)
-    }
-
-    fun get(key: String): Any = context.get(key) ?: error("Object missing in context")
+    fun add(elements: Map<String, Any>) = ctx.putAll(elements)
+    fun get(key: String): Any = context[key] ?: error("Object missing in context")
 }

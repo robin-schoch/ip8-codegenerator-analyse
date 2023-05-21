@@ -1,0 +1,7 @@
+{
+  "name": "ip8-codegenerator-analyse",
+  "version": "1.0.0",
+  "dependencies": {
+    "openai": "^3.2.1"
+  }
+}

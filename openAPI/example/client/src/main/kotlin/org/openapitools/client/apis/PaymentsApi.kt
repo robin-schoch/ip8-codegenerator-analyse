@@ -26,241 +26,266 @@ import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.http.ParametersBuilder
 
-    open class PaymentsApi(
+open class PaymentsApi(
     baseUrl: String = ApiClient.BASE_URL,
     httpClientEngine: HttpClientEngine? = null,
     httpClientConfig: ((HttpClientConfig<*>) -> Unit)? = null,
-    ) : ApiClient(baseUrl, httpClientEngine, httpClientConfig, jsonBlock) {
+) : ApiClient(baseUrl, httpClientEngine, httpClientConfig, jsonBlock) {
 
-        /**
-        * Get the list of all payments.
-        * Return the list of all payments for the authenticated context.
-         * @param authorization Bearer followed by a base64 encoded OAuth access token 
-         * @param xCorAPIClientID ID of the client forwarded to the provider. (SCOPE: FI) 
-         * @param xCorrelationID Unique ID (defined by the caller) which will be reflected back in the response. 
-         * @param userAgent Name and version of the of the Client software. 
-         * @param xCorAPITargetID ID of the target, e.g., a financial institution. (SCOPE: FI - optional) (optional)
-         * @param xPSUIPAddress IP address of the user initiating the operation (SCOPE: FI - optional) (optional)
-         * @param xPSUUserAgent User of the client software (SCOPE: FI - optional) (optional)
-         * @return PaymentsGet200Response
-        */
-            @Suppress("UNCHECKED_CAST")
-        open suspend fun paymentsGet(authorization: kotlin.String, xCorAPIClientID: kotlin.String, xCorrelationID: kotlin.String, userAgent: kotlin.String, xCorAPITargetID: kotlin.String?, xPSUIPAddress: kotlin.String?, xPSUUserAgent: kotlin.String?): HttpResponse<PaymentsGet200Response> {
+    /**
+     * Get the list of all payments.
+     * Return the list of all payments for the authenticated context.
+     * @param authorization Bearer followed by a base64 encoded OAuth access token
+     * @param xCorAPIClientID ID of the client forwarded to the provider. (SCOPE: FI)
+     * @param xCorrelationID Unique ID (defined by the caller) which will be reflected back in the response.
+     * @param userAgent Name and version of the of the Client software.
+     * @param xCorAPITargetID ID of the target, e.g., a financial institution. (SCOPE: FI - optional) (optional)
+     * @param xPSUIPAddress IP address of the user initiating the operation (SCOPE: FI - optional) (optional)
+     * @param xPSUUserAgent User of the client software (SCOPE: FI - optional) (optional)
+     * @return PaymentsGet200Response
+     */
+    @Suppress("UNCHECKED_CAST")
+    open suspend fun paymentsGet(
+        authorization: kotlin.String,
+        xCorAPIClientID: kotlin.String,
+        xCorrelationID: kotlin.String,
+        userAgent: kotlin.String,
+        xCorAPITargetID: kotlin.String?,
+        xPSUIPAddress: kotlin.String?,
+        xPSUUserAgent: kotlin.String?
+    ): HttpResponse<PaymentsGet200Response> {
 
-            val localVariableAuthNames = listOf<String>("OAuth2")
+        val localVariableAuthNames = listOf<String>("OAuth2")
 
-            val localVariableBody = 
-                    io.ktor.client.utils.EmptyContent
+        val localVariableBody =
+            io.ktor.client.utils.EmptyContent
 
-            val localVariableQuery = mutableMapOf<String, List<String>>()
+        val localVariableQuery = mutableMapOf<String, List<String>>()
 
-            val localVariableHeaders = mutableMapOf<String, String>()
-            authorization?.apply { localVariableHeaders["Authorization"] = this.toString() }
-            xCorAPIClientID?.apply { localVariableHeaders["X-CorAPI-Client-ID"] = this.toString() }
-            xCorrelationID?.apply { localVariableHeaders["X-Correlation-ID"] = this.toString() }
-            userAgent?.apply { localVariableHeaders["User-Agent"] = this.toString() }
-            xCorAPITargetID?.apply { localVariableHeaders["X-CorAPI-Target-ID"] = this.toString() }
-            xPSUIPAddress?.apply { localVariableHeaders["X-PSU-IP-Address"] = this.toString() }
-            xPSUUserAgent?.apply { localVariableHeaders["X-PSU-User-Agent"] = this.toString() }
+        val localVariableHeaders = mutableMapOf<String, String>()
+        authorization?.apply { localVariableHeaders["Authorization"] = this.toString() }
+        xCorAPIClientID?.apply { localVariableHeaders["X-CorAPI-Client-ID"] = this.toString() }
+        xCorrelationID?.apply { localVariableHeaders["X-Correlation-ID"] = this.toString() }
+        userAgent?.apply { localVariableHeaders["User-Agent"] = this.toString() }
+        xCorAPITargetID?.apply { localVariableHeaders["X-CorAPI-Target-ID"] = this.toString() }
+        xPSUIPAddress?.apply { localVariableHeaders["X-PSU-IP-Address"] = this.toString() }
+        xPSUUserAgent?.apply { localVariableHeaders["X-PSU-User-Agent"] = this.toString() }
 
-            val localVariableConfig = RequestConfig<kotlin.Any?>(
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.GET,
             "/payments",
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
-            )
+        )
 
-            return request(
+        return request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
-            ).wrap()
-            }
+        ).wrap()
+    }
 
-        /**
-        * Initiate new payments submission
-        * Create new payments submission.
-         * @param authorization Bearer followed by a base64 encoded OAuth access token 
-         * @param xCorAPIClientID ID of the client forwarded to the provider. (SCOPE: FI) 
-         * @param xCorrelationID Unique ID (defined by the caller) which will be reflected back in the response. 
-         * @param userAgent Name and version of the of the Client software. 
-         * @param paymentSubmissionRequest Details of payments submission to be added. 
-         * @param xCorAPITargetID ID of the target, e.g., a financial institution. (SCOPE: FI - optional) (optional)
-         * @param xPSUIPAddress IP address of the user initiating the operation (SCOPE: FI - optional) (optional)
-         * @param xPSUUserAgent User of the client software (SCOPE: FI - optional) (optional)
-         * @return void
-        */
-        open suspend fun paymentsPost(authorization: kotlin.String, xCorAPIClientID: kotlin.String, xCorrelationID: kotlin.String, userAgent: kotlin.String, paymentSubmissionRequest: PaymentSubmissionRequest, xCorAPITargetID: kotlin.String?, xPSUIPAddress: kotlin.String?, xPSUUserAgent: kotlin.String?): HttpResponse<Unit> {
+    /**
+     * Initiate new payments submission
+     * Create new payments submission.
+     * @param authorization Bearer followed by a base64 encoded OAuth access token
+     * @param xCorAPIClientID ID of the client forwarded to the provider. (SCOPE: FI)
+     * @param xCorrelationID Unique ID (defined by the caller) which will be reflected back in the response.
+     * @param userAgent Name and version of the of the Client software.
+     * @param paymentSubmissionRequest Details of payments submission to be added.
+     * @param xCorAPITargetID ID of the target, e.g., a financial institution. (SCOPE: FI - optional) (optional)
+     * @param xPSUIPAddress IP address of the user initiating the operation (SCOPE: FI - optional) (optional)
+     * @param xPSUUserAgent User of the client software (SCOPE: FI - optional) (optional)
+     * @return void
+     */
+    open suspend fun paymentsPost(
+        authorization: kotlin.String,
+        xCorAPIClientID: kotlin.String,
+        xCorrelationID: kotlin.String,
+        userAgent: kotlin.String,
+        paymentSubmissionRequest: PaymentSubmissionRequest,
+        xCorAPITargetID: kotlin.String?,
+        xPSUIPAddress: kotlin.String?,
+        xPSUUserAgent: kotlin.String?
+    ): HttpResponse<Unit> {
 
-            val localVariableAuthNames = listOf<String>("OAuth2")
+        val localVariableAuthNames = listOf<String>("OAuth2")
 
-            val localVariableBody = paymentSubmissionRequest
+        val localVariableBody = paymentSubmissionRequest
 
-            val localVariableQuery = mutableMapOf<String, List<String>>()
+        val localVariableQuery = mutableMapOf<String, List<String>>()
 
-            val localVariableHeaders = mutableMapOf<String, String>()
-            authorization?.apply { localVariableHeaders["Authorization"] = this.toString() }
-            xCorAPIClientID?.apply { localVariableHeaders["X-CorAPI-Client-ID"] = this.toString() }
-            xCorrelationID?.apply { localVariableHeaders["X-Correlation-ID"] = this.toString() }
-            userAgent?.apply { localVariableHeaders["User-Agent"] = this.toString() }
-            xCorAPITargetID?.apply { localVariableHeaders["X-CorAPI-Target-ID"] = this.toString() }
-            xPSUIPAddress?.apply { localVariableHeaders["X-PSU-IP-Address"] = this.toString() }
-            xPSUUserAgent?.apply { localVariableHeaders["X-PSU-User-Agent"] = this.toString() }
+        val localVariableHeaders = mutableMapOf<String, String>()
+        authorization?.apply { localVariableHeaders["Authorization"] = this.toString() }
+        xCorAPIClientID?.apply { localVariableHeaders["X-CorAPI-Client-ID"] = this.toString() }
+        xCorrelationID?.apply { localVariableHeaders["X-Correlation-ID"] = this.toString() }
+        userAgent?.apply { localVariableHeaders["User-Agent"] = this.toString() }
+        xCorAPITargetID?.apply { localVariableHeaders["X-CorAPI-Target-ID"] = this.toString() }
+        xPSUIPAddress?.apply { localVariableHeaders["X-PSU-IP-Address"] = this.toString() }
+        xPSUUserAgent?.apply { localVariableHeaders["X-PSU-User-Agent"] = this.toString() }
 
-            val localVariableConfig = RequestConfig<kotlin.Any?>(
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.POST,
             "/payments",
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
-            )
+        )
 
-            return jsonRequest(
+        return jsonRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
-            ).wrap()
-            }
+        ).wrap()
+    }
 
-        /**
-        * Delete a specific payment submission before executed
-        * Delete a specific payment submission before executed.
-         * @param submissionID ID of payment submission to be retrieved. 
-         * @param authorization Bearer followed by a base64 encoded OAuth access token 
-         * @param xCorAPIClientID ID of the client forwarded to the provider. (SCOPE: FI) 
-         * @param xCorrelationID Unique ID (defined by the caller) which will be reflected back in the response. 
-         * @param userAgent Name and version of the of the Client software. 
-         * @param xCorAPITargetID ID of the target, e.g., a financial institution. (SCOPE: FI - optional) (optional)
-         * @param xPSUIPAddress IP address of the user initiating the operation (SCOPE: FI - optional) (optional)
-         * @param xPSUUserAgent User of the client software (SCOPE: FI - optional) (optional)
-         * @return void
-        */
-        open suspend fun paymentsSubmissionIdDelete(submissionID: kotlin.String, authorization: kotlin.String, xCorAPIClientID: kotlin.String, xCorrelationID: kotlin.String, userAgent: kotlin.String, xCorAPITargetID: kotlin.String?, xPSUIPAddress: kotlin.String?, xPSUUserAgent: kotlin.String?): HttpResponse<Unit> {
+    /**
+     * Delete a specific payment submission before executed
+     * Delete a specific payment submission before executed.
+     * @param submissionID ID of payment submission to be retrieved.
+     * @param authorization Bearer followed by a base64 encoded OAuth access token
+     * @param xCorAPIClientID ID of the client forwarded to the provider. (SCOPE: FI)
+     * @param xCorrelationID Unique ID (defined by the caller) which will be reflected back in the response.
+     * @param userAgent Name and version of the of the Client software.
+     * @param xCorAPITargetID ID of the target, e.g., a financial institution. (SCOPE: FI - optional) (optional)
+     * @param xPSUIPAddress IP address of the user initiating the operation (SCOPE: FI - optional) (optional)
+     * @param xPSUUserAgent User of the client software (SCOPE: FI - optional) (optional)
+     * @return void
+     */
+    open suspend fun paymentsSubmissionIdDelete(
+        submissionID: kotlin.String,
+        // parameters ...
+        xPSUUserAgent: kotlin.String?
+    ): HttpResponse<Unit> {
 
-            val localVariableAuthNames = listOf<String>("OAuth2")
+        val localVariableAuthNames = listOf<String>("OAuth2")
+        val localVariableBody = io.ktor.client.utils.EmptyContent
+        val localVariableQuery = mutableMapOf<String, List<String>>()
+        val localVariableHeaders = mutableMapOf<String, String>()
+        // headers ...
+        xPSUUserAgent?.apply { localVariableHeaders["X-PSU-User-Agent"] = this.toString() }
 
-            val localVariableBody = 
-                    io.ktor.client.utils.EmptyContent
-
-            val localVariableQuery = mutableMapOf<String, List<String>>()
-
-            val localVariableHeaders = mutableMapOf<String, String>()
-            authorization?.apply { localVariableHeaders["Authorization"] = this.toString() }
-            xCorAPIClientID?.apply { localVariableHeaders["X-CorAPI-Client-ID"] = this.toString() }
-            xCorrelationID?.apply { localVariableHeaders["X-Correlation-ID"] = this.toString() }
-            userAgent?.apply { localVariableHeaders["User-Agent"] = this.toString() }
-            xCorAPITargetID?.apply { localVariableHeaders["X-CorAPI-Target-ID"] = this.toString() }
-            xPSUIPAddress?.apply { localVariableHeaders["X-PSU-IP-Address"] = this.toString() }
-            xPSUUserAgent?.apply { localVariableHeaders["X-PSU-User-Agent"] = this.toString() }
-
-            val localVariableConfig = RequestConfig<kotlin.Any?>(
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.DELETE,
             "/payments/{submissionId}".replace("{" + "Submission ID" + "}", "$submissionID"),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
-            )
+        )
+        return request(localVariableConfig, localVariableBody, localVariableAuthNames).wrap()
+    }
 
-            return request(
-            localVariableConfig,
-            localVariableBody,
-            localVariableAuthNames
-            ).wrap()
-            }
+    /**
+     * Get a specific payment submission
+     * Retrieve a specific payment submission.
+     * @param submissionID ID of payment submission to be retrieved.
+     * @param authorization Bearer followed by a base64 encoded OAuth access token
+     * @param xCorAPIClientID ID of the client forwarded to the provider. (SCOPE: FI)
+     * @param xCorrelationID Unique ID (defined by the caller) which will be reflected back in the response.
+     * @param userAgent Name and version of the of the Client software.
+     * @param xCorAPITargetID ID of the target, e.g., a financial institution. (SCOPE: FI - optional) (optional)
+     * @param xPSUIPAddress IP address of the user initiating the operation (SCOPE: FI - optional) (optional)
+     * @param xPSUUserAgent User of the client software (SCOPE: FI - optional) (optional)
+     * @return PaymentSubmissionRequest
+     */
+    @Suppress("UNCHECKED_CAST")
+    open suspend fun paymentsSubmissionIdGet(
+        submissionID: kotlin.String,
+        authorization: kotlin.String,
+        xCorAPIClientID: kotlin.String,
+        xCorrelationID: kotlin.String,
+        userAgent: kotlin.String,
+        xCorAPITargetID: kotlin.String?,
+        xPSUIPAddress: kotlin.String?,
+        xPSUUserAgent: kotlin.String?
+    ): HttpResponse<PaymentSubmissionRequest> {
 
-        /**
-        * Get a specific payment submission
-        * Retrieve a specific payment submission.
-         * @param submissionID ID of payment submission to be retrieved. 
-         * @param authorization Bearer followed by a base64 encoded OAuth access token 
-         * @param xCorAPIClientID ID of the client forwarded to the provider. (SCOPE: FI) 
-         * @param xCorrelationID Unique ID (defined by the caller) which will be reflected back in the response. 
-         * @param userAgent Name and version of the of the Client software. 
-         * @param xCorAPITargetID ID of the target, e.g., a financial institution. (SCOPE: FI - optional) (optional)
-         * @param xPSUIPAddress IP address of the user initiating the operation (SCOPE: FI - optional) (optional)
-         * @param xPSUUserAgent User of the client software (SCOPE: FI - optional) (optional)
-         * @return PaymentSubmissionRequest
-        */
-            @Suppress("UNCHECKED_CAST")
-        open suspend fun paymentsSubmissionIdGet(submissionID: kotlin.String, authorization: kotlin.String, xCorAPIClientID: kotlin.String, xCorrelationID: kotlin.String, userAgent: kotlin.String, xCorAPITargetID: kotlin.String?, xPSUIPAddress: kotlin.String?, xPSUUserAgent: kotlin.String?): HttpResponse<PaymentSubmissionRequest> {
+        val localVariableAuthNames = listOf<String>("OAuth2")
 
-            val localVariableAuthNames = listOf<String>("OAuth2")
+        val localVariableBody =
+            io.ktor.client.utils.EmptyContent
 
-            val localVariableBody = 
-                    io.ktor.client.utils.EmptyContent
+        val localVariableQuery = mutableMapOf<String, List<String>>()
 
-            val localVariableQuery = mutableMapOf<String, List<String>>()
+        val localVariableHeaders = mutableMapOf<String, String>()
+        authorization?.apply { localVariableHeaders["Authorization"] = this.toString() }
+        xCorAPIClientID?.apply { localVariableHeaders["X-CorAPI-Client-ID"] = this.toString() }
+        xCorrelationID?.apply { localVariableHeaders["X-Correlation-ID"] = this.toString() }
+        userAgent?.apply { localVariableHeaders["User-Agent"] = this.toString() }
+        xCorAPITargetID?.apply { localVariableHeaders["X-CorAPI-Target-ID"] = this.toString() }
+        xPSUIPAddress?.apply { localVariableHeaders["X-PSU-IP-Address"] = this.toString() }
+        xPSUUserAgent?.apply { localVariableHeaders["X-PSU-User-Agent"] = this.toString() }
 
-            val localVariableHeaders = mutableMapOf<String, String>()
-            authorization?.apply { localVariableHeaders["Authorization"] = this.toString() }
-            xCorAPIClientID?.apply { localVariableHeaders["X-CorAPI-Client-ID"] = this.toString() }
-            xCorrelationID?.apply { localVariableHeaders["X-Correlation-ID"] = this.toString() }
-            userAgent?.apply { localVariableHeaders["User-Agent"] = this.toString() }
-            xCorAPITargetID?.apply { localVariableHeaders["X-CorAPI-Target-ID"] = this.toString() }
-            xPSUIPAddress?.apply { localVariableHeaders["X-PSU-IP-Address"] = this.toString() }
-            xPSUUserAgent?.apply { localVariableHeaders["X-PSU-User-Agent"] = this.toString() }
-
-            val localVariableConfig = RequestConfig<kotlin.Any?>(
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.GET,
             "/payments/{submissionId}".replace("{" + "Submission ID" + "}", "$submissionID"),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
-            )
+        )
 
-            return request(
+        return request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
-            ).wrap()
-            }
+        ).wrap()
+    }
 
-        /**
-        * Get status information for the specific payment submission
-        * Retrieve a specific payment submission&#39;s status.
-         * @param submissionID ID of payment submission to be retrieved. 
-         * @param authorization Bearer followed by a base64 encoded OAuth access token 
-         * @param xCorAPIClientID ID of the client forwarded to the provider. (SCOPE: FI) 
-         * @param xCorrelationID Unique ID (defined by the caller) which will be reflected back in the response. 
-         * @param userAgent Name and version of the of the Client software. 
-         * @param xCorAPITargetID ID of the target, e.g., a financial institution. (SCOPE: FI - optional) (optional)
-         * @param xPSUIPAddress IP address of the user initiating the operation (SCOPE: FI - optional) (optional)
-         * @param xPSUUserAgent User of the client software (SCOPE: FI - optional) (optional)
-         * @return PaymentSubmissionStatus
-        */
-            @Suppress("UNCHECKED_CAST")
-        open suspend fun paymentsSubmissionIdStatusGet(submissionID: kotlin.String, authorization: kotlin.String, xCorAPIClientID: kotlin.String, xCorrelationID: kotlin.String, userAgent: kotlin.String, xCorAPITargetID: kotlin.String?, xPSUIPAddress: kotlin.String?, xPSUUserAgent: kotlin.String?): HttpResponse<PaymentSubmissionStatus> {
+    /**
+     * Get status information for the specific payment submission
+     * Retrieve a specific payment submission&#39;s status.
+     * @param submissionID ID of payment submission to be retrieved.
+     * @param authorization Bearer followed by a base64 encoded OAuth access token
+     * @param xCorAPIClientID ID of the client forwarded to the provider. (SCOPE: FI)
+     * @param xCorrelationID Unique ID (defined by the caller) which will be reflected back in the response.
+     * @param userAgent Name and version of the of the Client software.
+     * @param xCorAPITargetID ID of the target, e.g., a financial institution. (SCOPE: FI - optional) (optional)
+     * @param xPSUIPAddress IP address of the user initiating the operation (SCOPE: FI - optional) (optional)
+     * @param xPSUUserAgent User of the client software (SCOPE: FI - optional) (optional)
+     * @return PaymentSubmissionStatus
+     */
+    @Suppress("UNCHECKED_CAST")
+    open suspend fun paymentsSubmissionIdStatusGet(
+        submissionID: kotlin.String,
+        authorization: kotlin.String,
+        xCorAPIClientID: kotlin.String,
+        xCorrelationID: kotlin.String,
+        userAgent: kotlin.String,
+        xCorAPITargetID: kotlin.String?,
+        xPSUIPAddress: kotlin.String?,
+        xPSUUserAgent: kotlin.String?
+    ): HttpResponse<PaymentSubmissionStatus> {
 
-            val localVariableAuthNames = listOf<String>("OAuth2")
+        val localVariableAuthNames = listOf<String>("OAuth2")
 
-            val localVariableBody = 
-                    io.ktor.client.utils.EmptyContent
+        val localVariableBody =
+            io.ktor.client.utils.EmptyContent
 
-            val localVariableQuery = mutableMapOf<String, List<String>>()
+        val localVariableQuery = mutableMapOf<String, List<String>>()
 
-            val localVariableHeaders = mutableMapOf<String, String>()
-            authorization?.apply { localVariableHeaders["Authorization"] = this.toString() }
-            xCorAPIClientID?.apply { localVariableHeaders["X-CorAPI-Client-ID"] = this.toString() }
-            xCorrelationID?.apply { localVariableHeaders["X-Correlation-ID"] = this.toString() }
-            userAgent?.apply { localVariableHeaders["User-Agent"] = this.toString() }
-            xCorAPITargetID?.apply { localVariableHeaders["X-CorAPI-Target-ID"] = this.toString() }
-            xPSUIPAddress?.apply { localVariableHeaders["X-PSU-IP-Address"] = this.toString() }
-            xPSUUserAgent?.apply { localVariableHeaders["X-PSU-User-Agent"] = this.toString() }
+        val localVariableHeaders = mutableMapOf<String, String>()
+        authorization?.apply { localVariableHeaders["Authorization"] = this.toString() }
+        xCorAPIClientID?.apply { localVariableHeaders["X-CorAPI-Client-ID"] = this.toString() }
+        xCorrelationID?.apply { localVariableHeaders["X-Correlation-ID"] = this.toString() }
+        userAgent?.apply { localVariableHeaders["User-Agent"] = this.toString() }
+        xCorAPITargetID?.apply { localVariableHeaders["X-CorAPI-Target-ID"] = this.toString() }
+        xPSUIPAddress?.apply { localVariableHeaders["X-PSU-IP-Address"] = this.toString() }
+        xPSUUserAgent?.apply { localVariableHeaders["X-PSU-User-Agent"] = this.toString() }
 
-            val localVariableConfig = RequestConfig<kotlin.Any?>(
+        val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.GET,
             "/payments/{submissionId}/status".replace("{" + "Submission ID" + "}", "$submissionID"),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
-            )
+        )
 
-            return request(
+        return request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
-            ).wrap()
-            }
+        ).wrap()
+    }
 
-        }
+}

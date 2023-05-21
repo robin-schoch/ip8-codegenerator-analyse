@@ -47,8 +47,6 @@ interface BaseGenerator : Deserializer {
 
     val codeGenConfig: CodeGenConfig
 
-    val languageSpecificPrimitives: Map<String, String>
-
     fun loadTemplates(): Sequence<File> {
         return with(javaClass.classLoader.getResource(templateDirectoryPath)) {
             val dir = this?.file?.let { File(it) } ?: error("template directory is missing generation aborted")
@@ -84,9 +82,9 @@ interface BaseGenerator : Deserializer {
         }
     }
 
-    fun preProcessing()
+    fun preProcessing() {}
 
     fun process(): Sequence<Output>
 
-    fun postProcessing()
+    fun postProcessing() {}
 }
